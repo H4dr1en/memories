@@ -7,10 +7,11 @@ import { LimitTo } from './limitTo.pipe';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { DataBaseService} from './sql.service'
-import {SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import {memorieUpdater, DataBaseService } from './sql.service'
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
+
 
 @NgModule({
   declarations: [
@@ -34,9 +35,10 @@ import { AddMemoryPage } from '../pages/add-memory/add-memory';
   providers: [
     StatusBar,
     SplashScreen,
+    memorieUpdater,
     DataBaseService,
     SQLite,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

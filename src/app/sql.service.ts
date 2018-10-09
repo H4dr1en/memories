@@ -1,14 +1,7 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Injectable } from '@angular/core';
 
-@Injectable()
-export class memorieUpdater {
-
-    createNewMemorie() { }
-    getMemories() { }
-    updateMemorie() { }
-
-}
+//TODO error handling
 
 @Injectable()
 export class DataBaseService {
@@ -31,15 +24,63 @@ export class DataBaseService {
             .catch(e => console.log(e));
     }
 
-    //TODO
-    //functions to handle db (insert, select, update)
-    //functions to manipulate memorie (new, search by title/date/tags/etc, edit)
-    //link between both
+    insertNewMemorie(memorie: any) {
+        let query = "INSERT INTO memories (Title, Description) VALUES (?,?)";
+        return this.db.executeSql(query, [memorie.title, memorie.description]);
+    }
 
-    insertNewMemorie(memorie: any) { }
+    selectMemories() {
+        let query = 'select * from memories';
+        return this.db.executeSql(query);
+    }
 
-    selectMemories(params) { }
+    updateMemorie(memorie: any) {
+        let query = "UPDATE memories set Title = ?,  Description = ? WHERE ROWID = memorie.id";
+        return this.db.executeSql(query, [memorie.title, memorie.description, memorie.id]);
+    }
 
-    updateMemorie(id) { }
+}
+
+@Injectable()
+export class memorieUpdater {
+    memories: any = []
+    constructor(protected DBS: DataBaseService) {
+        this.DBS.selectMemories().then((tx, result) => {
+            result.rows.forEach(memorie => {
+                this.memories.push(memorie);
+            });
+        }).catch(e => console.log(e));
+    }
+
+    createNewMemorie(title, description) {
+        let memorie = {
+            title: title,
+            description: description
+        };
+        return this.DBS.insertNewMemorie(memorie)
+            .then((tx, result) => {
+                this.memories.push(result.rows.item[0]);
+            })
+            .catch(e => console.error(e));
+    }
+    //TODO Search with parameters
+
+    /* getMemories() {
+        return this.DBS.selectMemories()
+    } */
+
+    updateMemorie(memorie) {
+        return this.DBS.updateMemorie(memorie)
+            .then((tx, result) => {
+                for (let i = 0; i < this.memories.length; i++) {
+                    if (this.memories[i].id == result.rows.item[0].id) {
+                        this.memories.splice(i, 1);
+                        this.memories.push(result.rows.item[0]);
+                        break;
+                    }
+                }
+            })
+            .catch(e => console.error(e));
+    }
 
 }
