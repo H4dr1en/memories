@@ -40,4 +40,8 @@ export class HomePage {
 
     }
 
+    pushMemory(mem) {
+        this.navCtrl.push(ViewMemoryPage, { 'mem' : mem});
+    }
+
 } 

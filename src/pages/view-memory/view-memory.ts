@@ -22,7 +22,6 @@ export class ViewMemoryPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
         this.mem = navParams.get("mem");
-        console.log(this.mem);
     }
 
     presentActionSheet() {
