@@ -6,80 +6,94 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DataBaseService {
 
-    db: any
+    db: SQLiteObject;
+    dbReady: Promise<any>;
 
-    constructor(private sqlite: SQLite) { }
-
-    async initDB() {
-        return this.sqlite.create({
-            name: 'data.db',
-            location: 'default'
-        })
-            .then((db: SQLiteObject) => {
-                this.db = db;
-                db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Tags VARCHAR(150))', [])
-                    .then(() => console.log('Executed SQL'))
-                    .catch(e => console.log(e));
-            })
-            .catch(e => console.log(e));
+    constructor(private sqlite: SQLite) {
+        this.dbReady = this.initDB();
     }
 
-    async insertNewMemorie(memorie: any) {
-        if (this.db === undefined) {
-            await this.initDB()
+    async initDB() {
+
+        try {
+            this.db = await this.sqlite.create({
+                name: 'data.db',
+                location: 'default'
+            });
+        } catch (error) {
+            console.log(error);
         }
+        
+        //return this.db.executeSql('drop table memories', []);
+        
+        let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Tags VARCHAR(150))', []);
+        promise.then(() => console.log('SQLite ready'));
+        promise.catch((e) => console.log(e));
+        return promise;
+        
+    }
+
+    async insertNewMemory(memory: any) {
+        await this.dbReady;
+
         let query = "INSERT INTO memories (Title, Description) VALUES (?,?)";
-        return this.db.executeSql(query, [memorie.title, memorie.description]);
+        return this.db.executeSql(query, [memory.title, memory.description]);
     }
 
     async selectMemories() {
-        if (this.db === undefined) {
-            await this.initDB()
-        }
+        await this.dbReady;
+
         let query = 'select * from memories';
-        return this.db.executeSql(query);
+        return this.db.executeSql(query, []);
     }
 
-    async updateMemorie(memorie: any) {
-        if (this.db === undefined) {
-            await this.initDB()
-        }
+    async updateMemory(memory: any) {
+        await this.dbReady;
+
         let query = "UPDATE memories set Title = ?,  Description = ? WHERE ROWID = ?";
-        return this.db.executeSql(query, [memorie.title, memorie.description, memorie.id]);
+        return this.db.executeSql(query, [memory.title, memory.description, memory.id]);
     }
 
 }
 
 @Injectable()
-export class memorieUpdater {
+export class memoryUpdater {
+
     memories: any = []
+
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
-            result.rows.forEach(memorie => {
-                this.memories.push(memorie);
-            });
+            for(let i = 0; i < result.rows.length; i++) {
+                let row = result.rows.item(i);
+                if(row !== undefined)
+                    this.memories.push(row);
+            }                
         }).catch(e => console.log(e));
     }
 
-    createNewMemorie(title, description) {
-        let memorie = {
+    createNewMemory(title, description) {
+        let memory = {
             title: title,
             description: description
         };
-        return this.DBS.insertNewMemorie(memorie)
-            .then((result) => {
+
+        return this.DBS.insertNewMemory(memory).then(
+            (result) => {   
+                // TODO: correct push with insertId           
                 this.memories.push(result.rows.item[0]);
-            })
-            .catch(e => console.error(e));
+            },
+            (e) => console.error(e)
+        );
     }
     //TODO Search with parameters
 
-    /* getMemories() {
-        return this.DBS.selectMemories()
-    } */
+    get Memories() {
+        //return this.DBS.selectMemories();     
+        return this.memories;
+    }
 
-    async updateMemorie(memorie) {
-        return this.DBS.updateMemorie(memorie)
+    async updateMemory(memory) {
+        return this.DBS.updateMemory(memory)
             .then((result) => {
                 for (let i = 0; i < this.memories.length; i++) {
                     if (this.memories[i].id == result.rows.item[0].id) {
@@ -89,7 +103,7 @@ export class memorieUpdater {
                     }
                 }
             })
-            .catch(e => console.error(e));
+            .catch((e) => console.error(e));
     }
 
 }

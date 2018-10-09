@@ -8,15 +8,15 @@
 
 <ion-content padding>
     <ion-searchbar (ionInput)="getSearchedItems($event)"></ion-searchbar>
-    <div *ngFor="let mem of memories">
+    <div *ngFor="let mem of memoryUpdater.memories">
         <ion-card (click)="pushMemory(mem)">
-            <img *ngIf="mem.img" src="../../assets/imgs/{{mem.img}}" />
+            <img src="../../assets/imgs/nin-live.png" />
             <ion-card-content>
                 <ion-card-title>
-                    {{mem.title | LimitTo: 40}}
+                    {{mem.Title | LimitTo: 40}}
                 </ion-card-title>
                 <p>
-                    {{ mem.description | LimitTo: 300 }}
+                    {{ mem.Description | LimitTo: 300 }}
                 </p>
             </ion-card-content>
         </ion-card>

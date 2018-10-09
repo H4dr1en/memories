@@ -17,11 +17,15 @@
     <form (ngSubmit)="addMemory()">
         <ion-item>
             <ion-label>Title</ion-label>
-            <ion-input type="text" [(ngModel)]="mem.title" name="title"></ion-input>
+            <ion-input type="text" [(ngModel)]="mem.Title" name="title"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>Description</ion-label>
-            <ion-textarea [(ngModel)]="mem.description" name="description"></ion-textarea>
+            <ion-textarea [(ngModel)]="mem.Description" name="description"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label>Picture</ion-label>
+            <ion-textarea [(ngModel)]="mem.Description" name="description"></ion-textarea>
         </ion-item>
         <button ion-button type="submit" block>Add Memory</button>
     </form>
