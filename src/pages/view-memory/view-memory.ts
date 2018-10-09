@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { EditMemoryPage } from '../edit-memory/edit-memory';
 
 
 /**
@@ -37,7 +37,7 @@ export class ViewMemoryPage {
                 }, {
                     text: 'Modify',
                     handler: () => {
-                        console.log('Archive clicked');
+                        this.showEditMemoryPage();
                     }
                 }, {
                     text: 'Cancel',
@@ -57,14 +57,14 @@ export class ViewMemoryPage {
             message: 'Are you sure to delete this memory?',
             buttons: [
                 {
-                  text: 'No',
-                  handler: () => { }
+                    text: 'No',
+                    handler: () => { }
                 },
                 {
-                  text: 'Yes',
-                  handler: () => this.deleteMemory()                  
+                    text: 'Yes',
+                    handler: () => this.deleteMemory()
                 }
-              ]
+            ]
         });
         alert.present();
     }
@@ -76,8 +76,16 @@ export class ViewMemoryPage {
         this.navCtrl.pop();
     }
 
+    showEditMemoryPage() {
+        const modal = this.navCtrl.push(EditMemoryPage, { mem: this.mem });
+    }
+
     ionViewDidLoad() {
         console.log('ionViewDidLoad ViewMemoryPage');
+    }
+
+    ionViewWillEnter() {
+        // TODO: implement refreshing view
     }
 
 }

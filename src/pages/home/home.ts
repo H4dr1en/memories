@@ -15,12 +15,12 @@ export class HomePage {
         {
             img: "nin-live.png",
             title: "This is a cool title about a very long story that may take several lines to write",
-            content: "Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!"
+            description: "Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!"
         }, 
         {
             img: "nin-live.png",
             title: "This is a cool title about a very long story that may take several lines to write",
-            content: "Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!"
+            description: "Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy! Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!Here are some nice content about the nice title! Like, share, enjoy!"
         }
     ];
     searchQuery: string = '';
@@ -48,6 +48,14 @@ export class HomePage {
 
     showAddMemoryPage() { 
         this.navCtrl.push(AddMemoryPage);
+    }
+
+    ionViewWillEnter() {
+        this.refreshMemories()
+    }
+
+    refreshMemories() {
+        
     }
 
 } 

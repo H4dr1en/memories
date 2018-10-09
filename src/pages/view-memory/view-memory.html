@@ -15,11 +15,11 @@
     <img *ngIf="mem.img" src="../../assets/imgs/{{mem.img}}" />
     <h1> {{ mem.title }}</h1>
     <p class="content">
-        {{ mem.content}}
+        {{ mem.description}}
     </p>
 
     <ion-fab right bottom>
-        <button ion-fab (click)="presentActionSheet()"><ion-icon name="create"></ion-icon></button>
+        <button ion-fab (click)="showEditMemoryPage()"><ion-icon name="create"></ion-icon></button>
     </ion-fab>
 
 </ion-content>

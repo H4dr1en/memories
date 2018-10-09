@@ -1,5 +1,5 @@
 <!--
-  Generated template for the AddMemoryPage page.
+  Generated template for the EditMemoryPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,14 +7,14 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>Add a new memory</ion-title>
+        <ion-title>Modify memory</ion-title>
     </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <form (ngSubmit)="addMemory()">
+    <form (ngSubmit)="editMemory()">
         <ion-item>
             <ion-label>Title</ion-label>
             <ion-input type="text" [(ngModel)]="mem.title" name="title"></ion-input>
@@ -23,6 +23,7 @@
             <ion-label>Description</ion-label>
             <ion-textarea [(ngModel)]="mem.description" name="description"></ion-textarea>
         </ion-item>
-        <button ion-button type="submit" block>Add Memory</button>
+        <button ion-button type="submit" block>Save Memory</button>
     </form>
+
 </ion-content>

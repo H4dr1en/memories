@@ -11,6 +11,7 @@ import {memorieUpdater, DataBaseService } from './sql.service'
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
+import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { AddMemoryPage } from '../pages/add-memory/add-memory';
     HomePage,
     ViewMemoryPage,
     AddMemoryPage,
+    EditMemoryPage,
     LimitTo
   ],
   imports: [
@@ -30,7 +32,8 @@ import { AddMemoryPage } from '../pages/add-memory/add-memory';
     MyApp,
     HomePage,
     ViewMemoryPage,
-    AddMemoryPage
+    AddMemoryPage,
+    EditMemoryPage
   ],
   providers: [
     StatusBar,
