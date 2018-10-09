@@ -8,7 +8,9 @@ export class DataBaseService {
 
     db: any
 
-    constructor(private sqlite: SQLite) {
+    constructor(private sqlite: SQLite) { }
+
+    initDB() {
         this.sqlite.create({
             name: 'data.db',
             location: 'default'
@@ -22,18 +24,27 @@ export class DataBaseService {
             .catch(e => console.log(e));
     }
 
-    insertNewMemorie(memorie: any) {
+    async insertNewMemorie(memorie: any) {
+        if (this.db === undefined) {
+            await this.initDB()
+        }
         let query = "INSERT INTO memories (Title, Description) VALUES (?,?)";
         return this.db.executeSql(query, [memorie.title, memorie.description]);
     }
 
-    selectMemories() {
+    async selectMemories() {
+        if (this.db === undefined) {
+            await this.initDB()
+        }
         let query = 'select * from memories';
         return this.db.executeSql(query);
     }
 
-    updateMemorie(memorie: any) {
-        let query = "UPDATE memories set Title = ?,  Description = ? WHERE ROWID = memorie.id";
+    async updateMemorie(memorie: any) {
+        if (this.db === undefined) {
+            await this.initDB()
+        }
+        let query = "UPDATE memories set Title = ?,  Description = ? WHERE ROWID = ?";
         return this.db.executeSql(query, [memorie.title, memorie.description, memorie.id]);
     }
 
@@ -43,7 +54,7 @@ export class DataBaseService {
 export class memorieUpdater {
     memories: any = []
     constructor(protected DBS: DataBaseService) {
-        this.DBS.selectMemories().then((tx, result) => {
+        this.DBS.selectMemories().then((result) => {
             result.rows.forEach(memorie => {
                 this.memories.push(memorie);
             });
@@ -56,7 +67,7 @@ export class memorieUpdater {
             description: description
         };
         return this.DBS.insertNewMemorie(memorie)
-            .then((tx, result) => {
+            .then((result) => {
                 this.memories.push(result.rows.item[0]);
             })
             .catch(e => console.error(e));
@@ -69,7 +80,7 @@ export class memorieUpdater {
 
     updateMemorie(memorie) {
         return this.DBS.updateMemorie(memorie)
-            .then((tx, result) => {
+            .then((result) => {
                 for (let i = 0; i < this.memories.length; i++) {
                     if (this.memories[i].id == result.rows.item[0].id) {
                         this.memories.splice(i, 1);
