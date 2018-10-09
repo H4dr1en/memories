@@ -70,8 +70,10 @@ export class ViewMemoryPage {
     }
 
     deleteMemory() {
-        // To implement
+        // To implement: deleting of the memory
         console.log("deleting ", this.mem);
+
+        this.navCtrl.pop();
     }
 
     ionViewDidLoad() {

@@ -10,12 +10,14 @@ import { HomePage } from '../pages/home/home';
 import { DataBaseService} from './sql.service'
 import {SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
+import { AddMemoryPage } from '../pages/add-memory/add-memory';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ViewMemoryPage,
+    AddMemoryPage,
     LimitTo
   ],
   imports: [
@@ -26,7 +28,8 @@ import { ViewMemoryPage } from '../pages/view-memory/view-memory';
   entryComponents: [
     MyApp,
     HomePage,
-    ViewMemoryPage
+    ViewMemoryPage,
+    AddMemoryPage
   ],
   providers: [
     StatusBar,

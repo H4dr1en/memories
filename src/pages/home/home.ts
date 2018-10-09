@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LimitTo } from '../../app/limitTo.pipe';
 import { ViewMemoryPage } from '../view-memory/view-memory'; 
+import { AddMemoryPage } from '../add-memory/add-memory';
+
 
 @Component({
     selector: 'page-home',
@@ -42,6 +44,10 @@ export class HomePage {
 
     pushMemory(mem) {
         this.navCtrl.push(ViewMemoryPage, { 'mem' : mem});
+    }
+
+    showAddMemoryPage() { 
+        this.navCtrl.push(AddMemoryPage);
     }
 
 } 
