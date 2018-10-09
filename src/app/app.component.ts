@@ -14,7 +14,6 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, memorieUpdater: memorieUpdater) {
     platform.ready().then(() => {
       memorieUpdater.createNewMemorie("this is a test", "This a description for my test");
-      console.log(memorieUpdater.memories);
       statusBar.styleDefault();
       splashScreen.hide();
     });

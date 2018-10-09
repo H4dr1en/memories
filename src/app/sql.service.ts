@@ -10,7 +10,7 @@ export class DataBaseService {
 
     constructor(private sqlite: SQLite) { }
 
-    initDB() {
+    async initDB() {
         return this.sqlite.create({
             name: 'data.db',
             location: 'default'
@@ -78,7 +78,7 @@ export class memorieUpdater {
         return this.DBS.selectMemories()
     } */
 
-    updateMemorie(memorie) {
+    async updateMemorie(memorie) {
         return this.DBS.updateMemorie(memorie)
             .then((result) => {
                 for (let i = 0; i < this.memories.length; i++) {
