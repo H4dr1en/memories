@@ -1,27 +1,30 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Memories
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>
+            Memories
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-searchbar (ionInput)="getSearchedItems($event)"></ion-searchbar>
+    <div *ngFor="let mem of memories">
+        <ion-card (click)="pushMemory(mem)">
+            <img *ngIf="mem.img" src="../../assets/imgs/{{mem.img}}" />
+            <ion-card-content>
+                <ion-card-title>
+                    {{mem.title | LimitTo: 40}}
+                </ion-card-title>
+                <p>
+                    {{ mem.content | LimitTo: 300 }}
+                </p>
+            </ion-card-content>
+        </ion-card>
+    </div>
 
-    <ion-card *ngFor="let mem of memories">
-        <img *ngIf="mem.img" src="../../assets/imgs/{{mem.img}}"/>
-        <ion-card-content>
-            <ion-card-title>
-            {{mem.title | LimitTo: 40}}        
-        </ion-card-title>
-        <p>
-        {{ mem.content | LimitTo: 300 }}
-        </p> 
-    </ion-card-content>
-  </ion-card> 
-
-  <ion-fab right bottom>
-        <button ion-fab color="blue"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+    <ion-fab right bottom>
+        <button ion-fab color="blue">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 </ion-content>
