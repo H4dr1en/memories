@@ -11,7 +11,7 @@ export class DataBaseService {
     constructor(private sqlite: SQLite) { }
 
     initDB() {
-        this.sqlite.create({
+        return this.sqlite.create({
             name: 'data.db',
             location: 'default'
         })
