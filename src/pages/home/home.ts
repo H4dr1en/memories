@@ -6,10 +6,10 @@ import { ViewMemoryPage } from '../view-memory/view-memory';
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html'
-})
-export class HomePage {
+}) 
+export class HomePage { 
 
-    memories: any[] = [
+    memories: any[] = [ 
         {
             img: "nin-live.png",
             title: "This is a cool title about a very long story that may take several lines to write",

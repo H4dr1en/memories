@@ -8,14 +8,12 @@ import { LimitTo } from './limitTo.pipe';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
-import { PopOverEditMemoryPage } from '../pages/pop-over-edit-memory/pop-over-edit-memory';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ViewMemoryPage,
-    PopOverEditMemoryPage,
     LimitTo
   ],
   imports: [
@@ -26,8 +24,7 @@ import { PopOverEditMemoryPage } from '../pages/pop-over-edit-memory/pop-over-ed
   entryComponents: [
     MyApp,
     HomePage,
-    ViewMemoryPage,
-    PopOverEditMemoryPage
+    ViewMemoryPage
   ],
   providers: [
     StatusBar,
