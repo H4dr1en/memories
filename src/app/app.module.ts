@@ -7,8 +7,8 @@ import { LimitTo } from './limitTo.pipe';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { DataBaseService} from './sql.service'
-import {SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import {memorieUpdater, DataBaseService } from './sql.service'
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 @NgModule({
   declarations: [
@@ -28,9 +28,10 @@ import {SQLite, SQLiteObject } from '@ionic-native/sqlite';
   providers: [
     StatusBar,
     SplashScreen,
+    memorieUpdater,
     DataBaseService,
     SQLite,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
