@@ -8,9 +8,7 @@ export class DataBaseService {
 
     db: any
 
-    constructor(private sqlite: SQLite) { }
-
-    initiateDB() {
+    constructor(private sqlite: SQLite) {
         this.sqlite.create({
             name: 'data.db',
             location: 'default'
