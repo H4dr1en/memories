@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 
@@ -20,7 +20,7 @@ export class ViewMemoryPage {
 
     mem: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
         this.mem = navParams.get("mem");
     }
 
