@@ -9,11 +9,13 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { DataBaseService} from './sql.service'
 import {SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+    ViewMemoryPage,
     LimitTo
   ],
   imports: [
@@ -23,7 +25,8 @@ import {SQLite, SQLiteObject } from '@ionic-native/sqlite';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    ViewMemoryPage
   ],
   providers: [
     StatusBar,
