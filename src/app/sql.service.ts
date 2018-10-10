@@ -52,7 +52,7 @@ export class DataBaseService {
     async selectMemories() {
         await this.dbReady;
 
-        let query = 'select * from memories';
+        let query = 'select rowid, * from memories';
         return this.db.executeSql(query, []);
     }
 
@@ -70,7 +70,7 @@ export class DataBaseService {
 @Injectable()
 export class memoryUpdater {        
 
-    memories: Memory[];
+    memories: Memory[] = [];
 
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
@@ -89,7 +89,7 @@ export class memoryUpdater {
         };
 
         return this.DBS.insertNewMemory(memory).then(
-            (result) => {   
+            (result) => {
                 // TODO: correct push with insertId           
                 this.memories.push(result.rows.item[0]);
             },
@@ -97,11 +97,6 @@ export class memoryUpdater {
         );
     }
     //TODO Search with parameters
-
-    get Memories() {
-        //return this.DBS.selectMemories();     
-        return this.memories;
-    }
 
     async updateMemory(memory) {
         return this.DBS.updateMemory(memory)
