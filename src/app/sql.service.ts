@@ -2,7 +2,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Injectable, Type } from '@angular/core';
 
 export type Memory = {
-    id: number;
+    rowid: number;
     Title: string;
     Description: string;
     Location: string;
@@ -43,11 +43,11 @@ export class DataBaseService {
 
     }
 
-    async insertNewMemory(memory: any) {
+    async insertNewMemory(memory: Memory) {
         await this.dbReady;
 
         let query = "INSERT INTO memories (Title, Description,Date) VALUES (?,?,?)";
-        return this.db.executeSql(query, [memory.title, memory.description, memory.Date.toString()]);
+        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Date.toString()]);
     }
 
     async selectMemories(id?: number) {
@@ -63,18 +63,18 @@ export class DataBaseService {
         return this.db.executeSql(query, params);
     }
 
-    async updateMemory(memory: any) {
+    async updateMemory(memory: Memory) {
         await this.dbReady;
 
         let query = "UPDATE memories set Title = ?,  Description = ? WHERE ROWID = ?";
-        return this.db.executeSql(query, [memory.title, memory.description, memory.id]);
+        return this.db.executeSql(query, [memory.Title, memory.Description, memory.rowid]);
     }
 
-    async deleteMemory(memory: any) {
+    async deleteMemory(memory: Memory) {
         await this.dbReady;
 
         let query = "DELETE FROM memories WHERE ROWID = ?";
-        return this.db.executeSql(query, [memory.id]);
+        return this.db.executeSql(query, [memory.rowid]);
     }
 
 }
@@ -89,7 +89,7 @@ export class memoryUpdater {
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
             for (let i = 0; i < result.rows.length; i++) {
-                let row = result.rows.item(i);
+                let row = result.rows.item(i);               
                 if (row !== undefined)
                     row.Date = new Date(row.Date);
                     this.memories.push(row);
@@ -109,13 +109,13 @@ export class memoryUpdater {
         );
     }
 
-    async deleteMemory(memory) {
-        return this.DBS.deleteMemory(memory).then(() => {
+    async deleteMemory(memory: Memory) {
+        return this.DBS.deleteMemory(memory).then((result) => {            
             this.memories.splice(this.memories.indexOf(memory), 1);
         }).catch((e)=>console.log(e))
     }
 
-    async updateMemory(memory) {
+    async updateMemory(memory: Memory) {
         return this.DBS.updateMemory(memory)
             .then(() => {
                 this.memories[this.memories.indexOf(memory)] = memory;

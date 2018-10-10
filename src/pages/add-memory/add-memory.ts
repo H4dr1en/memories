@@ -20,7 +20,7 @@ export class AddMemoryPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryUpdater: memoryUpdater) {
         this.mem = {
-            id : undefined,
+            rowid : undefined,
             Title : "Last day in San Francisco",
             Description : "Johnny is so excited, while I'm really tired.",
             Location : "San Francisco",

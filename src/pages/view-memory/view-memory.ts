@@ -43,9 +43,7 @@ export class ViewMemoryPage {
                 }, {
                     text: 'Cancel',
                     role: 'cancel',
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
+                    handler: () => { }
                 }
             ]
         });
