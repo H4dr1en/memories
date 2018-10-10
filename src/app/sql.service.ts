@@ -40,11 +40,17 @@ export class DataBaseService {
         return this.db.executeSql(query, [memory.title, memory.description]);
     }
 
-    async selectMemories() {
+    async selectMemories(id? : string) {
         await this.dbReady;
-
-        let query = 'select * from memories';
-        return this.db.executeSql(query, []);
+        let params = [];
+        let query = '';
+        if(id){
+            params = [id];
+            query = 'select * from memories where ROWID = ?';
+        } else {
+            query = 'select * from memories';
+        }
+        return this.db.executeSql(query, params);
     }
 
     async updateMemory(memory: any) {
@@ -71,7 +77,7 @@ export class memoryUpdater {
         }).catch(e => console.log(e));
     }
 
-    createNewMemory(title, description) {
+    createNewMemory(title:string, description:string) {
         let memory = {
             title: title,
             description: description
@@ -79,16 +85,16 @@ export class memoryUpdater {
 
         return this.DBS.insertNewMemory(memory).then(
             (result) => {   
-                // TODO: correct push with insertId           
-                this.memories.push(result.rows.item[0]);
+                this.DBS.selectMemories(result.insertId).then((result)=>{
+                    this.memories.push(result.rows.item[0]);
+                })           
+                .catch(e => console.log(e));
             },
             (e) => console.error(e)
         );
     }
-    //TODO Search with parameters
 
     get Memories() {
-        //return this.DBS.selectMemories();     
         return this.memories;
     }
 
@@ -105,5 +111,5 @@ export class memoryUpdater {
             })
             .catch((e) => console.error(e));
     }
-
+    
 }
