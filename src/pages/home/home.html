@@ -3,12 +3,21 @@
         <ion-title>
             Memories
         </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="swapfilterOrder()">
+                <ion-icon *ngIf="filterActive && filterOrder == 'Asc'" name="arrow-round-down"></ion-icon>
+                <ion-icon *ngIf="filterActive && filterOrder == 'Desc'" name="arrow-round-up"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="presentFilter($event)">
+                <ion-icon name="funnel"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="getSearchedItems($event)"></ion-searchbar>
-    <div *ngFor="let mem of memoryUpdater.memories">
+    <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="setFilteredItems($event)"></ion-searchbar>
+    <div *ngFor="let mem of displayedMemories">
         <ion-card (click)="pushMemory(mem)">
             <img src="../../assets/imgs/nin-live.png" />
             <ion-card-content>

@@ -12,6 +12,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
 import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
+import { FilterPage } from '../pages/filter/filter';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
     ViewMemoryPage,
     AddMemoryPage,
     EditMemoryPage,
+    FilterPage,
     LimitTo
   ],
   imports: [
@@ -33,7 +35,8 @@ import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
     HomePage,
     ViewMemoryPage,
     AddMemoryPage,
-    EditMemoryPage
+    EditMemoryPage,
+    FilterPage
   ],
   providers: [
     StatusBar,

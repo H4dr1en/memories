@@ -124,4 +124,13 @@ export class memoryUpdater {
             })
             .catch((e) => console.log(e));
     }
+
+    
+    filterItems(searchTerm) {
+ 
+        return this.memories.filter((mem) => {
+            return mem.Title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+        });    
+ 
+    }
 }
