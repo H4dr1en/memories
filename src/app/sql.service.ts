@@ -1,5 +1,14 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
+
+export type Memory = {
+    id: number;
+    Title: string;
+    Description: string;
+    Location: string;
+    Mark: number;
+    Tags: string;
+}
 
 //TODO error handling
 
@@ -46,9 +55,9 @@ export class DataBaseService {
         let query = '';
         if(id){
             params = [id];
-            query = 'select * from memories where ROWID = ?';
+            query = 'select rowid,* from memories where ROWID = ?';
         } else {
-            query = 'select * from memories';
+            query = 'select rowid, * from memories';
         }
         return this.db.executeSql(query, params);
     }
@@ -62,10 +71,12 @@ export class DataBaseService {
 
 }
 
-@Injectable()
-export class memoryUpdater {
 
-    memories: any = []
+
+@Injectable()
+export class memoryUpdater {        
+
+    memories: Memory[] = [];
 
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
@@ -92,10 +103,6 @@ export class memoryUpdater {
             },
             (e) => console.error(e)
         );
-    }
-
-    get Memories() {
-        return this.memories;
     }
 
     async updateMemory(memory) {
