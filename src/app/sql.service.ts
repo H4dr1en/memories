@@ -105,26 +105,21 @@ export class memoryUpdater {
                 })
                     .catch(e => console.log(e));
             },
-            (e) => console.error(e)
+            (e) => console.log(e)
         );
     }
 
-    filterMemories() {
-
-    }
-
     async deleteMemory(memory) {
-        return this.DBS.deleteMemory(memory).then((result) => {
+        return this.DBS.deleteMemory(memory).then(() => {
             this.memories.splice(this.memories.indexOf(memory), 1);
-        })
+        }).catch((e)=>console.log(e))
     }
 
     async updateMemory(memory) {
         return this.DBS.updateMemory(memory)
-            .then((result) => {
-                this.memories[this.memories.indexOf(memory)] = result.rows.item[0]
+            .then(() => {
+                this.memories[this.memories.indexOf(memory)] = memory;
             })
-            .catch((e) => console.error(e));
+            .catch((e) => console.log(e));
     }
-
 }
