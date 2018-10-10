@@ -2,6 +2,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Injectable, Type } from '@angular/core';
 
 export type Memory = {
+    id: number;
     Title: string;
     Description: string;
     Location: string;
