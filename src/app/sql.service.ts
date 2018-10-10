@@ -1,5 +1,13 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
+
+export type Memory = {
+    Title: string;
+    Description: string;
+    Location: string;
+    Mark: number;
+    Tags: string;
+}
 
 //TODO error handling
 
@@ -56,10 +64,12 @@ export class DataBaseService {
 
 }
 
-@Injectable()
-export class memoryUpdater {
 
-    memories: any = []
+
+@Injectable()
+export class memoryUpdater {        
+
+    memories: Memory[];
 
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
