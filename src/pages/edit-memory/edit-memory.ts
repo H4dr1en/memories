@@ -24,7 +24,6 @@ export class EditMemoryPage {
     }
 
     editMemory() {
-        // TODO : saving
         this.memoryUpdater.updateMemory(this.mem);
         this.navCtrl.pop();
     }

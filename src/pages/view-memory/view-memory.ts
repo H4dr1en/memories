@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { EditMemoryPage } from '../edit-memory/edit-memory';
+import { memoryUpdater, Memory } from '../../app/sql.service';
 
 
 /**
@@ -20,7 +21,7 @@ export class ViewMemoryPage {
 
     mem: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController, public memoryUpdater: memoryUpdater) {
         this.mem = navParams.get("mem");
     }
 
@@ -70,9 +71,7 @@ export class ViewMemoryPage {
     }
 
     deleteMemory() {
-        // To implement: deleting of the memory
-        console.log("deleting ", this.mem);
-
+        this.memoryUpdater.deleteMemory(this.mem);
         this.navCtrl.pop();
     }
 
@@ -82,10 +81,6 @@ export class ViewMemoryPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ViewMemoryPage');
-    }
-
-    ionViewWillEnter() {
-        // TODO: implement refreshing view
     }
 
 }

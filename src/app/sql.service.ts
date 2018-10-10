@@ -122,7 +122,7 @@ export class memoryUpdater {
     async updateMemory(memory) {
         return this.DBS.updateMemory(memory)
             .then((result) => {
-                this.memories[this.memories.indexOf(memory)] = result.rows.item[0]
+                this.memories[this.memories.indexOf(memory)] = result.rows.item[0];
             })
             .catch((e) => console.error(e));
     }

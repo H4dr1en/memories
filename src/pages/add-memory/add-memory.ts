@@ -25,11 +25,13 @@ export class AddMemoryPage {
             Description : "Johnny is so excited, while I'm really tired.",
             Location : "San Francisco",
             Mark: undefined,
-            Tags: undefined
+            Tags: undefined,
+            Date: undefined
         }              
     }
 
     addMemory() {
+        this.mem.Date = new Date();
         this.memoryUpdater.createNewMemory(this.mem);
         this.navCtrl.pop();
     }
