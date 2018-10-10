@@ -35,7 +35,7 @@ export class DataBaseService {
         }
 
         //return this.db.executeSql('drop table memories', []);
-
+          
         let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Tags VARCHAR(150), Date VARCHAR(100))', []);
         promise.then(() => console.log('SQLite ready'));
         promise.catch((e) => console.log(e));
@@ -46,7 +46,7 @@ export class DataBaseService {
     async insertNewMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "INSERT INTO memories (Title, Description,Date) VALUES (?,?,?)";
+        let query = "INSERT INTO memories (Title, Description, Date) VALUES (?,?,?)";
         return this.db.executeSql(query, [memory.Title, memory.Description, memory.Date.toString()]);
     }
 
@@ -54,12 +54,13 @@ export class DataBaseService {
         await this.dbReady;
         let params = [];
         let query = '';
-        if (id) {
+        if (id !== undefined) {
             params = [id];
             query = 'select rowid,* from memories where ROWID = ?';
         } else {
             query = 'select rowid, * from memories';
-        }
+        }       
+        
         return this.db.executeSql(query, params);
     }
 
@@ -90,9 +91,10 @@ export class memoryUpdater {
         this.DBS.selectMemories().then((result) => {
             for (let i = 0; i < result.rows.length; i++) {
                 let row = result.rows.item(i);               
-                if (row !== undefined)
+                if (row !== undefined) {
                     row.Date = new Date(row.Date);
                     this.memories.push(row);
+                }
             }
         }).catch(e => console.log(e));
     }
@@ -100,8 +102,8 @@ export class memoryUpdater {
     async createNewMemory(memory: Memory) {
         return this.DBS.insertNewMemory(memory).then(
             (result) => {
-                this.DBS.selectMemories(result.insertId).then((result) => {
-                    this.memories.push(result.rows.item[0]);
+                this.DBS.selectMemories(result.insertId).then((result) => {                    
+                    this.memories.push(result.rows.item(0));
                 })
                     .catch(e => console.log(e));
             },
