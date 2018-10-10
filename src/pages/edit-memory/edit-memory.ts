@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { memoryUpdater, Memory } from '../../app/sql.service'
+
 
 /**
  * Generated class for the EditMemoryPage page.
@@ -15,15 +17,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class EditMemoryPage {
 
-    mem: any
+    mem: Memory
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryUpdater: memoryUpdater) {
         this.mem = this.navParams.get('mem');
-        console.log("tes", this.mem)
     }
 
     editMemory() {
         // TODO : saving
+        this.memoryUpdater.updateMemory(this.mem);
         this.navCtrl.pop();
     }
 

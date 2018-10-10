@@ -88,11 +88,7 @@ export class memoryUpdater {
         }).catch(e => console.log(e));
     }
 
-    createNewMemory(title:string, description:string) {
-        let memory = {
-            title: title,
-            description: description
-        };
+    createNewMemory(memory: Memory) {
 
         return this.DBS.insertNewMemory(memory).then(
             (result) => {   
@@ -108,7 +104,9 @@ export class memoryUpdater {
     async updateMemory(memory) {
         return this.DBS.updateMemory(memory)
             .then((result) => {
+                console.log(result);
                 for (let i = 0; i < this.memories.length; i++) {
+                    
                     if (this.memories[i].id == result.rows.item[0].id) {
                         this.memories.splice(i, 1);
                         this.memories.push(result.rows.item[0]);

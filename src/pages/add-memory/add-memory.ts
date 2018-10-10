@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { memoryUpdater, Memory } from '../../app/sql.service'
 
 /**
  * Generated class for the AddMemoryPage page.
@@ -15,17 +16,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AddMemoryPage {
 
-    mem: any
+    mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
-        this.mem = {};
-        this.mem.title = "Last day in San Francisco"
-        this.mem.description = "Johnny is so excited, while I'm really tired.";
+    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryUpdater: memoryUpdater) {
+        this.mem = {
+            id : undefined,
+            Title : "Last day in San Francisco",
+            Description : "Johnny is so excited, while I'm really tired.",
+            Location : "San Francisco",
+            Mark: undefined,
+            Tags: undefined
+        }              
     }
 
     addMemory() {
-        // TODO : implement
-
+        this.memoryUpdater.createNewMemory(this.mem);
         this.navCtrl.pop();
     }
 
