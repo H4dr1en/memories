@@ -178,4 +178,13 @@ export class memoryProvider {
             this.memories[this.memories.indexOf(memory)] = memory;
         }).catch((e) => console.log(e));
     }
+
+    
+    filterItems(searchTerm) {
+ 
+        return this.memories.filter((mem) => {
+            return mem.Title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+        });    
+ 
+    }
 }
