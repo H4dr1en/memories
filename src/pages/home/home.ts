@@ -3,7 +3,7 @@ import { NavController, ModalController } from 'ionic-angular';
 import { LimitTo } from '../../app/limitTo.pipe';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
-import { memoryUpdater, Memory } from '../../app/sql.service';
+import { memoryProvider, Memory } from '../../app/sql.service';
 import { FilterPage } from '../filter/filter';
 
 
@@ -15,10 +15,10 @@ export class HomePage {
     
     searchQuery: string = '';
 
-    constructor(public navCtrl: NavController, protected memoryUpdater: memoryUpdater, protected modalCtrl: ModalController) { }
+    constructor(public navCtrl: NavController, protected memoryProvider: memoryProvider, protected modalCtrl: ModalController) { }
 
     get memories (): Memory[] {
-        return this.memoryUpdater.memories;
+        return this.memoryProvider.memories;
     }
 
     presentModal() {

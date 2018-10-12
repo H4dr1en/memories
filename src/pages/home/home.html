@@ -8,7 +8,7 @@
 
 <ion-content padding>
     <ion-searchbar (ionInput)="getSearchedItems($event)"></ion-searchbar>
-    <div *ngFor="let mem of memoryUpdater.memories">
+    <div *ngFor="let mem of memoryProvider.memories">
         <ion-card (click)="pushMemory(mem)">
             <img src="../../assets/imgs/nin-live.png" />
             <ion-card-content>

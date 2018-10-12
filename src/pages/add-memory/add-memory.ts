@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { memoryUpdater, Memory } from '../../app/sql.service'
+import { memoryProvider, Memory } from '../../app/sql.service'
 
 /**
  * Generated class for the AddMemoryPage page.
@@ -18,7 +18,7 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryUpdater: memoryUpdater) {
+    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryProvider: memoryProvider) {
         this.mem = {
             rowid : undefined,
             Title : "Last day in San Francisco",
@@ -32,7 +32,7 @@ export class AddMemoryPage {
 
     addMemory() {
         this.mem.Date = new Date();
-        this.memoryUpdater.createNewMemory(this.mem);
+        this.memoryProvider.createNewMemory(this.mem);
         this.navCtrl.pop();
     }
 
