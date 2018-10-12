@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Memory } from '../sql.service';
-import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 
 @Pipe({
     name: 'filter',
