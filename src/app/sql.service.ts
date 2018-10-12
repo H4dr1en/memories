@@ -36,7 +36,7 @@ export class DataBaseService {
         }
 
         // DEBUG: Uncomment to refresh table structure
-        //return this.db.executeSql('drop table memories', []);
+        //return this.db.executeSql('drop table tags', []);
 
         let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Date VARCHAR(100))', [])
             .then(() => {
@@ -117,6 +117,7 @@ export class DataBaseService {
             params.push(tag);
         })
         query += values.join(',')
+        console.log(query);
         return this.db.executeSql(query, params);
     }
 
@@ -131,6 +132,7 @@ export class memoryProvider {
 
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
+            
             for (let i = 0; i < result.rows.length; i++) {
                 let row = result.rows.item(i);
                 if (row !== undefined) {
@@ -139,7 +141,7 @@ export class memoryProvider {
                     this.memories.push(row);
                     this.DBS.selectTags(row.rowid).then((result) => {
                         for (let i = 0; i < result.rows.length; i++) {
-                            let tag = result.rows.item(i);
+                            let tag = result.rows.item(i).Tag;                            
                             if (tag !== undefined) {
                                 this.memories[this.memories.indexOf(row)].Tags.push(tag)
                             }
@@ -153,6 +155,7 @@ export class memoryProvider {
     async createNewMemory(memory: Memory) {
         return this.DBS.insertNewMemory(memory).then((result) => { 
             if (result.insertId) {
+                memory.rowid = result.insertId;
                 if (memory.Tags !== undefined && memory.Tags.length > 0) {
                     this.DBS.insertTags(memory.rowid, memory.Tags).then(() => {
                         this.memories.push(memory)

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the FilterPage page.
@@ -15,20 +15,19 @@ import { IonicPage, NavController, ViewController } from 'ionic-angular';
 })
 export class FilterPage {
 
-    sortField: string = '';
+    filters : any;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, ) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, ) {
+        this.filters = navParams.get('filters');
+        console.log(this.filters);
+        
     }
 
-    dismiss() {
-        let filters = {
-            sortField: this.sortField
-        };
-        this.viewCtrl.dismiss(filters);
+    close() {
+        this.viewCtrl.dismiss(this.filters);
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad FilterPage');
     }
-
 }

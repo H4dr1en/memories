@@ -13,10 +13,19 @@ export class FilterPipe implements PipeTransform {
             return [];
         }
 
-        return memories.filter(function (el) {
-            return el.Title.toLowerCase().includes(filters.searchTerm.toLowerCase());
-        });
-
+        if (filters.tags.length == 0) {
+            return memories.filter(function (el) {
+                return el.Title.toLowerCase().includes(filters.searchTerm.toLowerCase());
+            });
+        } else {
+            return memories.filter(function (el) {     
+                if(filters.tags.some(tag => el.Tags.includes(tag))) {
+                    console.log(el, filters);
+                    return el.Title.toLowerCase().includes(filters.searchTerm.toLowerCase());
+                } else {
+                    return false;
+                }
+            });
+        }
     }
-
-} 
+}

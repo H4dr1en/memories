@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, NavParams } from 'ionic-angular';
+import { NavController, ModalController, NavParams, PopoverController } from 'ionic-angular';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
 import { memoryProvider, Memory } from '../../app/sql.service';
@@ -15,22 +15,34 @@ export enum FilterOrder {
     templateUrl: 'home.html'
 })
 export class HomePage {
-    
-    filters: any = { 
+
+    filters: any = {
         sortField: '',
-        searchTerm: ''
+        searchTerm: '',
+        tags: []
     };
     filterOrder: FilterOrder = FilterOrder.Asc;
     filterActive: boolean = false;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, protected modalCtrl: ModalController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, protected modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     }
 
     presentFilter() {
-        const modal = this.modalCtrl.create(FilterPage);
+        let modal = this.modalCtrl.create(FilterPage, {filters: this.filters});
         modal.present();
-        modal.onDidDismiss(filters => {
-            this.filters = filters;
+        modal.onDidDismiss(({ sortField, tags }) => {
+            this.filters.tags = tags;
+            this.filters.sortField = sortField;
+        })
+    }
+
+    presentPopover() {
+        let popover = this.popoverCtrl.create(FilterPage, {filters: this.filters});
+        popover.present();
+        popover.onDidDismiss(({ sortField, tags }) => {
+            console.log("ok dismiss", sortField, tags)
+            this.filters.tags = tags;
+            this.filters.sortField = sortField;
         })
     }
 

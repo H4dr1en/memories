@@ -8,7 +8,7 @@
                 <ion-icon *ngIf="filterActive && filterOrder == 'Asc'" name="arrow-round-down"></ion-icon>
                 <ion-icon *ngIf="filterActive && filterOrder == 'Desc'" name="arrow-round-up"></ion-icon>
             </button>
-            <button ion-button icon-only (click)="presentFilter($event)">
+            <button ion-button icon-only (click)="presentPopover($event)">
                 <ion-icon name="funnel"></ion-icon>
             </button>
         </ion-buttons>
@@ -27,6 +27,9 @@
                 <p>
                     {{ mem.Description | LimitTo: 300 }}
                 </p>
+                <div *ngFor="let tag of mem.Tags">
+                    <ion-badge color="secondary">{{tag}}</ion-badge>
+                </div>
             </ion-card-content>
         </ion-card>
     </div>
@@ -37,3 +40,4 @@
         </button>
     </ion-fab>
 </ion-content>
+

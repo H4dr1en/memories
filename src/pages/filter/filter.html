@@ -9,7 +9,7 @@
     <ion-navbar>
         <ion-title>Filters</ion-title>
         <ion-buttons start>
-            <button ion-button (click)="dismiss()">
+            <button ion-button (click)="close()">
                 <span ion-text color="primary" showWhen="ios">Cancel</span>
                 <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
             </button>
@@ -24,11 +24,14 @@
 
     <ion-item>
         <ion-label>Sort by</ion-label>
-        <ion-select [(ngModel)]="sortField">
+        <ion-select [(ngModel)]="filters.sortField">
             <ion-option value="Title">Title</ion-option>
             <ion-option value="Date">Date</ion-option>
         </ion-select>
     </ion-item>
+
+    <ion-tags-input name="tags" [(ngModel)]="filters.tags" [canEnterAdd]="true" [canBackspaceRemove]="true"
+            [separatorStr]="','"></ion-tags-input>
 
 
 
