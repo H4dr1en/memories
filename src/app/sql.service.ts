@@ -35,14 +35,14 @@ export class DataBaseService {
             console.log(error);
         }
 
+        // DEBUG: Uncomment to refresh table structure
         //return this.db.executeSql('drop table memories', []);
 
         let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Date VARCHAR(100))', [])
             .then(() => {
-                this.db.executeSql('create table if not exists tags(MemId INT,Tag VARCHAT(50),FOREIGN KEY(MemId) reference memories(rowid))', [])
-                    .then(() => console.log('Tags ready'))
-                    .catch((e) => console.log(e))
+                this.db.executeSql('create table if not exists tags(MemId INT,Tag VARCHAT(50),FOREIGN KEY(MemId) REFERENCES memories(rowid))', [])
             })
+            .then(() => console.log('Tags ready'))
             .catch((e) => console.log(e));
         return promise;
     }
@@ -151,12 +151,14 @@ export class memoryProvider {
     }
 
     async createNewMemory(memory: Memory) {
-        return this.DBS.insertNewMemory(memory).then((result) => {
-            if (result.insertid) {
-                if (memory.Tags.length > 0) {
+        return this.DBS.insertNewMemory(memory).then((result) => { 
+            if (result.insertId) {
+                if (memory.Tags !== undefined && memory.Tags.length > 0) {
                     this.DBS.insertTags(memory.rowid, memory.Tags).then(() => {
                         this.memories.push(memory)
                     }).catch(e => console.log(e))
+                } else {
+                    this.memories.push(memory);
                 }
             }
         }).catch(e => console.log(e));
@@ -172,19 +174,16 @@ export class memoryProvider {
     async updateMemory(memory: Memory, tagsToInsert?: string[], tagsToDelete?: string[]) {
         let promises = []
         promises.push(this.DBS.updateMemory(memory));
-        promises.push(this.DBS.insertTags(memory.rowid, tagsToInsert));
-        promises.push(this.DBS.deleteTag(memory.rowid, tagsToDelete));
+
+        if (tagsToInsert.length > 0) {
+            promises.push(this.DBS.insertTags(memory.rowid, tagsToInsert));
+        }
+        if (tagsToDelete.length > 0) {
+            promises.push(this.DBS.deleteTag(memory.rowid, tagsToDelete));
+        }
+
         return Promise.all(promises).then(() => {
             this.memories[this.memories.indexOf(memory)] = memory;
         }).catch((e) => console.log(e));
-    }
-
-    
-    filterItems(searchTerm) {
- 
-        return this.memories.filter((mem) => {
-            return mem.Title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-        });    
- 
     }
 }
