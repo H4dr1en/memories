@@ -23,6 +23,10 @@
             <ion-label>Description</ion-label>
             <ion-textarea [(ngModel)]="mem.Description" name="description"></ion-textarea>
         </ion-item>
+        <ion-item>
+            <ion-label>Tags</ion-label>
+            <ion-tags-input [(ngModel)]="tags" [canEnterAdd]="true" [canBackspaceRemove]="true" [separatorStr]="','" [once]="'true'" (onChange)="onTagChange($event)"></ion-tags-input>
+        </ion-item>
         <button ion-button type="submit" block>Add Memory</button>
     </form>
 </ion-content>
