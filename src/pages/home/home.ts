@@ -3,7 +3,7 @@ import { NavController, ModalController, NavParams } from 'ionic-angular';
 import { LimitTo } from '../../app/limitTo.pipe';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
-import { memoryUpdater, Memory } from '../../app/sql.service';
+import { memoryProvider, Memory } from '../../app/sql.service';
 import { FilterPage } from '../filter/filter';
 
 export enum FilterOrder {
@@ -24,12 +24,12 @@ export class HomePage {
     filterOrder: FilterOrder = FilterOrder.Asc;
     filterActive: boolean = false;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryUpdater: memoryUpdater, protected modalCtrl: ModalController) {
-        this.displayedMemories = this.memoryUpdater.memories;
+    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, protected modalCtrl: ModalController) {
+        this.displayedMemories = this.memoryProvider.memories;
     }
 
     get memories(): Memory[] {
-        return this.memoryUpdater.memories;
+        return this.memoryProvider.memories;
     }
 
     presentFilter() {
@@ -55,13 +55,13 @@ export class HomePage {
 
         if (this.filters.sortField == "Title") {
             if (this.filterOrder == FilterOrder.Asc) {
-                this.displayedMemories = this.memoryUpdater.memories.sort((a, b) => {
+                this.displayedMemories = this.memoryProvider.memories.sort((a, b) => {
                     if (a.Title < b.Title) return -1;
                     if (a.Title > b.Title) return 1;
                     return 0;
                 })
             } else {
-                this.displayedMemories = this.memoryUpdater.memories.sort((a, b) => {
+                this.displayedMemories = this.memoryProvider.memories.sort((a, b) => {
                     if (a.Title < b.Title) return 1;
                     if (a.Title > b.Title) return -1;
                     return 0;
@@ -70,13 +70,13 @@ export class HomePage {
         }
         else if (this.filters.sortField == "Date") {
             if (this.filterOrder == FilterOrder.Asc) {
-                this.displayedMemories = this.memoryUpdater.memories.sort((a, b) => b.Date.getTime() - a.Date.getTime());
+                this.displayedMemories = this.memoryProvider.memories.sort((a, b) => b.Date.getTime() - a.Date.getTime());
             } else {
-                this.displayedMemories = this.memoryUpdater.memories.sort((a, b) => a.Date.getTime() - b.Date.getTime());
+                this.displayedMemories = this.memoryProvider.memories.sort((a, b) => a.Date.getTime() - b.Date.getTime());
             }
         }
 
-        this.displayedMemories = this.memoryUpdater.filterItems(this.searchTerm);
+        this.displayedMemories = this.memoryProvider.filterItems(this.searchTerm);
     }
 
     swapfilterOrder() {

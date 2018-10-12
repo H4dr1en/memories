@@ -7,7 +7,7 @@ import { LimitTo } from './limitTo.pipe';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { memoryUpdater, DataBaseService } from './sql.service'
+import { memoryProvider, DataBaseService } from './sql.service'
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
@@ -41,7 +41,7 @@ import { FilterPage } from '../pages/filter/filter';
   providers: [
     StatusBar,
     SplashScreen,
-    memoryUpdater,
+    memoryProvider,
     DataBaseService,
     SQLite,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
