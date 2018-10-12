@@ -17,7 +17,6 @@ import { memoryProvider, Memory } from '../../app/sql.service'
 export class AddMemoryPage {
 
     mem: Memory;
-    tags: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryProvider: memoryProvider) {
         this.mem = {
@@ -26,7 +25,7 @@ export class AddMemoryPage {
             Description : "Johnny is so excited, while I'm really tired.",
             Location : "San Francisco",
             Mark: undefined,
-            Tags: undefined,
+            Tags: [],
             Date: undefined
         }              
     }
@@ -35,9 +34,6 @@ export class AddMemoryPage {
         this.mem.Date = new Date();
         this.memoryProvider.createNewMemory(this.mem);
         this.navCtrl.pop();
-    }
-    onTagChange(){
-        console.log(this.tags)
     }
 
     ionViewDidLoad() {
