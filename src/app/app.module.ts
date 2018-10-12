@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { LimitTo } from './limitTo.pipe';
+import { LimitTo } from './pipes/limitTo.pipe';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,6 +14,8 @@ import { AddMemoryPage } from '../pages/add-memory/add-memory';
 import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
 import { FilterPage } from '../pages/filter/filter';
 import {IonTagsInputModule} from "ionic-tags-input";
+import { FilterPipe } from './pipes/filter.pipe';
+import { SortPipe } from './pipes/sort.pipe';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import {IonTagsInputModule} from "ionic-tags-input";
     AddMemoryPage,
     EditMemoryPage,
     FilterPage,
-    LimitTo
+    LimitTo,
+    FilterPipe,
+    SortPipe
   ],
   imports: [
     BrowserModule,

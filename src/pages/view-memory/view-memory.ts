@@ -30,18 +30,23 @@ export class ViewMemoryPage {
             title: 'Memory',
             buttons: [
                 {
-                    text: 'Delete',
-                    role: 'destructive',
-                    handler: () => {
-                        this.showDeleteAlert();
-                    }
-                }, {
                     text: 'Modify',
+                    icon: "md-create",
                     handler: () => {
                         this.showEditMemoryPage();
                     }
-                }, {
+                },
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    icon: "ios-trash",
+                    handler: () => {
+                        this.showDeleteAlert();
+                    }
+                },  
+                {
                     text: 'Cancel',
+                    icon: "close",
                     role: 'cancel',
                     handler: () => { }
                 }
