@@ -13,6 +13,7 @@ import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
 import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
 import { FilterPage } from '../pages/filter/filter';
+import {IonTagsInputModule} from "ionic-tags-input";
 import { FilterPipe } from './pipes/filter.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 
@@ -31,7 +32,8 @@ import { SortPipe } from './pipes/sort.pipe';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonTagsInputModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

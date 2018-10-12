@@ -25,7 +25,7 @@ export class AddMemoryPage {
             Description : "Johnny is so excited, while I'm really tired.",
             Location : "San Francisco",
             Mark: undefined,
-            Tags: undefined,
+            Tags: [],
             Date: undefined
         }              
     }
