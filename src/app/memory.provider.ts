@@ -1,11 +1,12 @@
-import { Injectable, Type } from '@angular/core';
-import { DataBaseService } from './sql.service'
+import { Injectable } from '@angular/core';
+import { DataBaseService } from './services/sql.service'
+import { location } from './services/geolocation.service';
 
 export type Memory = {
     rowid: number;
     Title: string;
     Description: string;
-    Location: string;
+    Location: location;
     Mark: number;
     Date: Date;
     Tags: string[];

@@ -1,7 +1,6 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
-import { Injectable, Type } from '@angular/core';
-import { ValueTransformer } from '@angular/compiler/src/util';
-import { Memory } from './memory.provider';
+import { Injectable } from '@angular/core';
+import { Memory } from '../memory.provider';
 
 //TODO error handling
 

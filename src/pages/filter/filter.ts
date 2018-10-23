@@ -19,7 +19,6 @@ export class FilterPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, ) {
         this.filters = navParams.get('filters');
-        console.log(this.filters);        
     }
 
     close() {

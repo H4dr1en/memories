@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
+import { GeoLocService, location } from '../../app/services/geolocation.service'
 
 /**
  * Generated class for the AddMemoryPage page.
@@ -18,17 +19,21 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryProvider: memoryProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
         this.mem = {
             rowid : undefined,
             Title : "Last day in San Francisco",
             Description : "Johnny is so excited, while I'm really tired.",
-            Location : "San Francisco",
+            Location : {} as location,
             Mark: undefined,
             Tags: [],
             Date: undefined,
             Bookmark: 0
-        }              
+        }       
+        
+        this.geoloc.getLocation().then(res => {
+            console.log("res", res)
+        });
     }
 
     addMemory() {
