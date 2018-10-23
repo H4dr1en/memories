@@ -19,21 +19,17 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
         this.mem = {
-            rowid : undefined,
-            Title : "Last day in San Francisco",
-            Description : "Johnny is so excited, while I'm really tired.",
-            Location : {} as location,
+            rowid: undefined,
+            Title: "Last day in San Francisco",
+            Description: "Johnny is so excited, while I'm really tired.",
+            Location: {} as location,
             Mark: undefined,
             Tags: [],
             Date: undefined,
             Bookmark: 0
-        }       
-        
-        this.geoloc.getLocation().then(res => {
-            console.log("res", res)
-        });
+        }
     }
 
     addMemory() {
@@ -44,6 +40,12 @@ export class AddMemoryPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad AddMemoryPage');
+    }
+
+    ionViewWillEnter() {
+        this.geoloc.getLocation().then(loc => {
+            this.mem.Location = loc;
+        }).catch(console.error);
     }
 
 }

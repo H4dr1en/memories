@@ -13,7 +13,6 @@ export type coordinates = {
     lon: number
 }
 
-
 @Injectable()
 export class GeoLocService {
 
@@ -22,40 +21,24 @@ export class GeoLocService {
     constructor(public http: HttpClient, public geolocation: Geolocation) { }
 
     getLocation(): Promise<location> {
-        return this.geolocation.getCurrentPosition().then(pos => {
-            console.log("pos", pos);
+        return new Promise((resolve, reject) => {
 
-            let coords: coordinates = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-            /*
-            let url = `http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${this.appid}&units=metric&lang=fr`;
-            let promise = this.http.get(url).toPromise();
+            this.geolocation.getCurrentPosition().then(pos => {
 
-            promise.then(data => {
-                console.log(data)
-                this.currentLat = data.coord.lat;
-                this.currentLong = data.coord.lon;
-                this.temperature = data.main.temp;
-                this.meteo = data.weather[0].description;
-                this.location = data.name;
-                this.icone_meteo = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
-                this.errorVisible = false;
-                this.resultVisible = true;
-            }).catch((err) => {
-                this.resultVisible = false;
-                this.errorVisible = true;
+                let loc: location = {
+                    coords: { lat: pos.coords.latitude, lon: pos.coords.longitude },
+                    zipcode: null,
+                    name: ''
+                }
+
+                let url = `http://api.openweathermap.org/data/2.5/weather?lat=${loc.coords.lat}&lon=${loc.coords.lon}&appid=${this.appid}&units=metric&lang=fr`;
+                
+                this.http.get(url).toPromise().then((data:any) => {
+                    console.log(data)                    
+                    loc.name = data.name;
+                    resolve(loc);
+                }).catch(reject);
             });
-
-            return {
-                coords: { lat: data.coords.latitude, lon: data.coords.longitude },
-                zipcode: data.zipcode,
-                name: data.city
-
-            };
-            */
-
-            let p: location;
-            return p;
         });
     }
-
 }
