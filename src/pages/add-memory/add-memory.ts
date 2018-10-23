@@ -25,7 +25,7 @@ export class AddMemoryPage {
             Title: "Last day in San Francisco",
             Description: "Johnny is so excited, while I'm really tired.",
             Location: {} as location,
-            Mark: undefined,
+            Mark: 0,
             Tags: [],
             Date: undefined,
             Bookmark: 0

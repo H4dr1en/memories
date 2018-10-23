@@ -44,8 +44,8 @@ export class DataBaseService {
     async insertNewMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "INSERT INTO memories (Title, Description, Date, Bookmark) VALUES (?,?,?,?)";
-        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Date.toString(), memory.Bookmark || 0]);
+        let query = "INSERT INTO memories (Title, Description, Date, Mark, Bookmark) VALUES (?,?,?,?,?)";
+        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Date.toString(), memory.Mark, memory.Bookmark || 0]);
     }
 
     async selectMemories(id?: number) {
@@ -64,8 +64,8 @@ export class DataBaseService {
     async updateMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "UPDATE memories set Title = ?,  Description = ?, Bookmark = ? WHERE ROWID = ?";
-        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Bookmark, memory.rowid]);
+        let query = "UPDATE memories set Title = ?,  Description = ?, Bookmark = ?, Mark = ? WHERE ROWID = ?";
+        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Bookmark, memory.Mark, memory.rowid]);
     }
 
     async deleteMemory(memory: Memory) {
