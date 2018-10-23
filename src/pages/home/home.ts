@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, NavParams, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
 import { memoryProvider, Memory } from '../../app/sql.service';
@@ -25,16 +25,7 @@ export class HomePage {
         }
     };
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, protected modalCtrl: ModalController, public popoverCtrl: PopoverController) {
-    }
-
-    presentFilter() {
-        let modal = this.modalCtrl.create(FilterPage, {filters: this.filters});
-        modal.present();
-        modal.onDidDismiss(({ sort, tags }) => {
-            this.filters.tags = tags;
-            this.filters.sort.field = sort.field;
-        })
+    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, public popoverCtrl: PopoverController) {
     }
 
     presentPopover() {
