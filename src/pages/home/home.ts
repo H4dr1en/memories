@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
-import { memoryProvider, Memory } from '../../app/sql.service';
 import { FilterPage } from '../filter/filter';
+import { memoryProvider } from '../../app/memory.provider';
 
 export enum FilterOrder {
     Asc = "Asc",
@@ -22,19 +22,19 @@ export class HomePage {
         sort: {
             field: '',
             order: FilterOrder.Asc
+        },
+        marks: {
+            lower: 0,
+            upper: 5
         }
     };
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, public popoverCtrl: PopoverController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider) {
     }
 
-    presentPopover() {
+    presentPopover(event) {
         let popover = this.popoverCtrl.create(FilterPage, {filters: this.filters});
-        popover.present();
-        popover.onDidDismiss(({ sort, tags }) => {
-            this.filters.tags = tags;
-            this.filters.sort.field = sort.field;
-        })
+        popover.present({ev:event});
     }
 
     pushMemory(mem) {

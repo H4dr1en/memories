@@ -19,20 +19,35 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="outer-content">
 
+    <ion-row>
+        <ion-item>
+            <ion-label color="primary" stacked>Sort by</ion-label>
+            <ion-select class="filter" [(ngModel)]="filters.sort.field">
+                <ion-option value="Title">Title</ion-option>
+                <ion-option value="Date">Date</ion-option>
+            </ion-select>
+        </ion-item>
+    </ion-row>
 
-    <ion-item>
-        <ion-label>Sort by</ion-label>
-        <ion-select [(ngModel)]="filters.sort.field">
-            <ion-option value="Title">Title</ion-option>
-            <ion-option value="Date">Date</ion-option>
-        </ion-select>
-    </ion-item>
+    <ion-row>
+        <ion-item>
+            <ion-label color="primary" stacked>Mark Range</ion-label>
+            <ion-range class="filter" min="1" max="5" step="1" dualKnobs="true" pin="true" [(ngModel)]="filters.marks"
+                color="dark">
+                <ion-label range-left>0</ion-label>
+                <ion-label range-right>5</ion-label>
+            </ion-range>
+        </ion-item>
+    </ion-row>
 
-    <ion-tags-input name="tags" [(ngModel)]="filters.tags" [canEnterAdd]="true" [canBackspaceRemove]="true"
-            [separatorStr]="','"></ion-tags-input>
-
-
-
+    <ion-row>
+        <ion-grid>
+            <ion-row>
+                    <ion-tags-input class="filter" name="tags" [(ngModel)]="filters.tags" [canEnterAdd]="true"
+                        [canBackspaceRemove]="true" [separatorStr]="','" [placeholder]="'add tag'"></ion-tags-input>
+            </ion-row>
+        </ion-grid>
+    </ion-row>
 </ion-content>

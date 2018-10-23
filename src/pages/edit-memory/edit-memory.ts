@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { memoryProvider, Memory } from '../../app/sql.service'
+import { memoryProvider, Memory } from '../../app/memory.provider'
 
 
 /**
