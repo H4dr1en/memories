@@ -28,6 +28,9 @@
                 <p>
                     {{ mem.Description | LimitTo: 300 }}
                 </p>
+                <div class="mark-container">
+                    <ion-icon *ngFor="let i of [1,2,3,4,5]" name="star" [isActive]="mem.Mark >= i"></ion-icon>
+                </div>
                 <div class="tags-container">
                     <div class="tag" *ngFor="let tag of mem.Tags">
                         <ion-badge color="primary">{{tag}}</ion-badge>

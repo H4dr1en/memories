@@ -1,11 +1,9 @@
 page-home {
+    .tags-container {
+        display: flex;
+    }
 
-}
-
-.tags-container {
-    display: flex;
-}
-
-.tag {
-    padding-right: 0.5vw;
+    .tag {
+        padding-right: 0.5vw;
+    }
 }

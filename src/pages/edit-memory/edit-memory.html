@@ -27,6 +27,9 @@
             <ion-label>Description</ion-label>
             <ion-textarea [(ngModel)]="mem.Description" name="Description"></ion-textarea>
         </ion-item>
+        <ion-item>
+            <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" name="star" (click)="mem.Mark = i" [isActive]="mem.Mark >= i"></ion-icon></ion-label>
+        </ion-item>
         <ion-tags-input name="tags" [(ngModel)]="tags" [canEnterAdd]="true" [canBackspaceRemove]="true"
             [separatorStr]="','" (change)="onTagChange($event)"></ion-tags-input>
         <button ion-button type="submit" block>Save Memory</button>
