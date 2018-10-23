@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
-import { memoryProvider, Memory } from '../../app/sql.service';
+import { memoryProvider, Memory } from '../../app/memory.provider';
 import { FilterPage } from '../filter/filter';
 
 export enum FilterOrder {

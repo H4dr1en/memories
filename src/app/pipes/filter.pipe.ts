@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Memory } from '../sql.service';
+import { Memory } from '../memory.provider';
 
 @Pipe({
     name: 'filter',
