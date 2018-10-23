@@ -5,11 +5,12 @@
         </ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="swapfilterOrder()">
-                <ion-icon *ngIf="filters.sort.field.length > 0 && filterOrder == 'Asc'" name="arrow-round-down"></ion-icon>
-                <ion-icon *ngIf="filters.sort.field.length > 0 && filterOrder == 'Desc'" name="arrow-round-up"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Asc'" name="arrow-round-down"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Desc'" name="arrow-round-up"></ion-icon>
             </button>
             <button ion-button icon-only (click)="presentPopover($event)">
-                <ion-icon name="funnel"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length > 0"  color="primary" name="funnel"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length == 0" name="funnel"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
@@ -17,7 +18,7 @@
 
 <ion-content padding>
     <ion-searchbar [(ngModel)]="filters.searchTerm"></ion-searchbar>
-    <div *ngFor="let mem of memoryProvider.memories | filter:filters | sort:'filters':'filterOrder'">
+    <div *ngFor="let mem of memoryProvider.memories | filter:filters | sort:filters.sort">
         <ion-card (click)="pushMemory(mem)">
             <img src="../../assets/imgs/nin-live.png" />
             <ion-card-content>
