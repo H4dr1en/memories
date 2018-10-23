@@ -22,19 +22,19 @@ export class HomePage {
         sort: {
             field: '',
             order: FilterOrder.Asc
+        },
+        marks: {
+            lower: 0,
+            upper: 5
         }
     };
 
     constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, public popoverCtrl: PopoverController) {
     }
 
-    presentPopover() {
+    presentPopover(event) {
         let popover = this.popoverCtrl.create(FilterPage, {filters: this.filters});
-        popover.present();
-        popover.onDidDismiss(({ sort, tags }) => {
-            this.filters.tags = tags;
-            this.filters.sort.field = sort.field;
-        })
+        popover.present({ev:event});
     }
 
     pushMemory(mem) {

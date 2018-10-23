@@ -38,7 +38,7 @@ export class DataBaseService {
                 this.db.executeSql('create table if not exists tags(MemId INT,Tag VARCHAT(50),FOREIGN KEY(MemId) REFERENCES memories(rowid))', [])
             })
             .then(() => console.log('Tags ready'))
-            .catch(e => console.error(e));
+            .catch(e => console.error("SQLITE ERROR", e));
         return promise;
     }
 

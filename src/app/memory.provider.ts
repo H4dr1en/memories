@@ -25,6 +25,7 @@ export class memoryProvider {
                 if (row !== undefined) {
                     row.Date = new Date(row.Date);
                     row['Tags'] = []
+                    row.Mark = 3
                     this.memories.push(row);
                     this.DBS.selectTags(row.rowid).then((result) => {
                         for (let i = 0; i < result.rows.length; i++) {

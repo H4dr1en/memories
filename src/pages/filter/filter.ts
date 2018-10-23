@@ -23,7 +23,7 @@ export class FilterPage {
     }
 
     close() {
-        this.viewCtrl.dismiss(this.filters);
+        this.viewCtrl.dismiss();
     }
 
     ionViewDidLoad() {
