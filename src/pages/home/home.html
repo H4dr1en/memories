@@ -27,8 +27,10 @@
                 <p>
                     {{ mem.Description | LimitTo: 300 }}
                 </p>
-                <div *ngFor="let tag of mem.Tags">
-                    <ion-badge color="secondary">{{tag}}</ion-badge>
+                <div class="tags-container">
+                    <div class="tag" *ngFor="let tag of mem.Tags">
+                        <ion-badge color="primary">{{tag}}</ion-badge>
+                    </div>
                 </div>
             </ion-card-content>
         </ion-card>
@@ -40,4 +42,3 @@
         </button>
     </ion-fab>
 </ion-content>
-

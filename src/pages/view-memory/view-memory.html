@@ -17,6 +17,11 @@
     <p class="content">
         {{ mem.Description}}
     </p>
+    <div class="tags-container">
+        <div class="tag" *ngFor="let tag of mem.Tags">
+            <ion-badge color="primary">{{tag}}</ion-badge>
+        </div>
+    </div>
 
     <ion-fab right bottom>
         <button ion-fab (click)="presentActionSheet()"><ion-icon name="create"></ion-icon></button>

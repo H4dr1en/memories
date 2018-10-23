@@ -10,9 +10,8 @@ page-view-memory {
 }
 
 .content::first-letter {
-    font-size: 300%;
-    float:left;
-    padding-right: 2px;
+    font-size: 150%;
+    font: bold;
 }
 
 h1 {
@@ -27,4 +26,3 @@ h1, .content {
     line-height: 1.5;
     color: #3a585f;
 }
-
