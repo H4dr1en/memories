@@ -17,12 +17,13 @@ export enum FilterOrder {
 export class HomePage {
 
     filters: any = {
-        sortField: '',
         searchTerm: '',
-        tags: []
+        tags: [],
+        sort: {
+            field: '',
+            order: FilterOrder.Asc
+        }
     };
-    filterOrder: FilterOrder = FilterOrder.Asc;
-    filterActive: boolean = false;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, protected memoryProvider: memoryProvider, protected modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     }
@@ -30,19 +31,18 @@ export class HomePage {
     presentFilter() {
         let modal = this.modalCtrl.create(FilterPage, {filters: this.filters});
         modal.present();
-        modal.onDidDismiss(({ sortField, tags }) => {
+        modal.onDidDismiss(({ sort, tags }) => {
             this.filters.tags = tags;
-            this.filters.sortField = sortField;
+            this.filters.sort.field = sort.field;
         })
     }
 
     presentPopover() {
         let popover = this.popoverCtrl.create(FilterPage, {filters: this.filters});
         popover.present();
-        popover.onDidDismiss(({ sortField, tags }) => {
-            console.log("ok dismiss", sortField, tags)
+        popover.onDidDismiss(({ sort, tags }) => {
             this.filters.tags = tags;
-            this.filters.sortField = sortField;
+            this.filters.sort.field = sort.field;
         })
     }
 
@@ -55,7 +55,7 @@ export class HomePage {
     }
 
     swapfilterOrder() {
-        this.filterOrder = this.filterOrder == FilterOrder.Asc ? FilterOrder.Desc : FilterOrder.Asc;
+        this.filters.sort.order = this.filters.sort.order == FilterOrder.Asc ? FilterOrder.Desc : FilterOrder.Asc;
     }
 
     ionViewWillEnter() {

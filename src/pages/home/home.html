@@ -5,8 +5,8 @@
         </ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="swapfilterOrder()">
-                <ion-icon *ngIf="filterActive && filterOrder == 'Asc'" name="arrow-round-down"></ion-icon>
-                <ion-icon *ngIf="filterActive && filterOrder == 'Desc'" name="arrow-round-up"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length > 0 && filterOrder == 'Asc'" name="arrow-round-down"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length > 0 && filterOrder == 'Desc'" name="arrow-round-up"></ion-icon>
             </button>
             <button ion-button icon-only (click)="presentPopover($event)">
                 <ion-icon name="funnel"></ion-icon>
