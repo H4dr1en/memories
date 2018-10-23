@@ -1,16 +1,7 @@
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Injectable, Type } from '@angular/core';
 import { ValueTransformer } from '@angular/compiler/src/util';
-
-export type Memory = {
-    rowid: number;
-    Title: string;
-    Description: string;
-    Location: string;
-    Mark: number;
-    Date: Date;
-    Tags: string[];
-}
+import { Memory } from './memory.provider';
 
 //TODO error handling
 
@@ -32,26 +23,30 @@ export class DataBaseService {
                 location: 'default'
             });
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
 
         // DEBUG: Uncomment to refresh table structure
-        //return this.db.executeSql('drop table tags', []);
-
-        let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Date VARCHAR(100))', [])
+        /*
+        return this.db.executeSql('DROP TABLE IF EXISTS memories', []).then(() => {
+            this.db.executeSql('DROP TABLE IF EXISTS tags', [])
+        }).catch(e => console.error("SQLITE ERROR", e))
+        */
+        
+        let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Date VARCHAR(100), Bookmark INTEGER)', [])
             .then(() => {
                 this.db.executeSql('create table if not exists tags(MemId INT,Tag VARCHAT(50),FOREIGN KEY(MemId) REFERENCES memories(rowid))', [])
             })
             .then(() => console.log('Tags ready'))
-            .catch((e) => console.log(e));
+            .catch(e => console.error(e));
         return promise;
     }
 
     async insertNewMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "INSERT INTO memories (Title, Description, Date) VALUES (?,?,?)";
-        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Date.toString()]);
+        let query = "INSERT INTO memories (Title, Description, Date, Bookmark) VALUES (?,?,?,?)";
+        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Date.toString(), memory.Bookmark || 0]);
     }
 
     async selectMemories(id?: number) {
@@ -60,7 +55,7 @@ export class DataBaseService {
         let query = '';
         if (id !== undefined) {
             params = [id];
-            query = 'select rowid,* from memories where ROWID = ?';
+            query = 'select rowid, * from memories where ROWID = ?';
         } else {
             query = 'select rowid, * from memories';
         }
@@ -70,8 +65,8 @@ export class DataBaseService {
     async updateMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "UPDATE memories set Title = ?,  Description = ? WHERE ROWID = ?";
-        return this.db.executeSql(query, [memory.Title, memory.Description, memory.rowid]);
+        let query = "UPDATE memories set Title = ?,  Description = ?, Bookmark = ? WHERE ROWID = ?";
+        return this.db.executeSql(query, [memory.Title, memory.Description, memory.Bookmark, memory.rowid]);
     }
 
     async deleteMemory(memory: Memory) {
@@ -117,76 +112,7 @@ export class DataBaseService {
             params.push(tag);
         })
         query += values.join(',')
-        console.log(query);
         return this.db.executeSql(query, params);
     }
 
-}
-
-
-
-@Injectable()
-export class memoryProvider {
-
-    memories: Memory[] = [];
-
-    constructor(protected DBS: DataBaseService) {
-        this.DBS.selectMemories().then((result) => {
-            
-            for (let i = 0; i < result.rows.length; i++) {
-                let row = result.rows.item(i);
-                if (row !== undefined) {
-                    row.Date = new Date(row.Date);
-                    row['Tags'] = []
-                    this.memories.push(row);
-                    this.DBS.selectTags(row.rowid).then((result) => {
-                        for (let i = 0; i < result.rows.length; i++) {
-                            let tag = result.rows.item(i).Tag;                            
-                            if (tag !== undefined) {
-                                this.memories[this.memories.indexOf(row)].Tags.push(tag)
-                            }
-                        }
-                    }).catch(e => console.log(e));
-                }
-            }
-        }).catch(e => console.log(e));
-    }
-
-    async createNewMemory(memory: Memory) {
-        return this.DBS.insertNewMemory(memory).then((result) => { 
-            if (result.insertId) {
-                memory.rowid = result.insertId;
-                if (memory.Tags !== undefined && memory.Tags.length > 0) {
-                    this.DBS.insertTags(memory.rowid, memory.Tags).then(() => {
-                        this.memories.push(memory)
-                    }).catch(e => console.log(e))
-                } else {
-                    this.memories.push(memory);
-                }
-            }
-        }).catch(e => console.log(e));
-    }
-
-    async deleteMemory(memory: Memory) {
-        return this.DBS.deleteMemory(memory).then((result) => {
-            this.memories.splice(this.memories.indexOf(memory), 1);
-            this.DBS.deleteTag(memory.rowid)
-        }).catch((e) => console.log(e))
-    }
-
-    async updateMemory(memory: Memory, tagsToInsert?: string[], tagsToDelete?: string[]) {
-        let promises = []
-        promises.push(this.DBS.updateMemory(memory));
-
-        if (tagsToInsert.length > 0) {
-            promises.push(this.DBS.insertTags(memory.rowid, tagsToInsert));
-        }
-        if (tagsToDelete.length > 0) {
-            promises.push(this.DBS.deleteTag(memory.rowid, tagsToDelete));
-        }
-
-        return Promise.all(promises).then(() => {
-            this.memories[this.memories.indexOf(memory)] = memory;
-        }).catch((e) => console.log(e));
-    }
 }

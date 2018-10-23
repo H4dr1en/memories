@@ -7,7 +7,8 @@ import { LimitTo } from './pipes/limitTo.pipe';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { memoryProvider, DataBaseService } from './sql.service'
+import { DataBaseService } from './sql.service'
+import { Memory, memoryProvider } from './memory.provider';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';

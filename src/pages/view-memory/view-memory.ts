@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { EditMemoryPage } from '../edit-memory/edit-memory';
-import { memoryProvider } from '../../app/sql.service';
+import { memoryProvider } from '../../app/memory.provider';
 
 
 /**

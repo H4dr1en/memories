@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { memoryProvider, Memory } from './sql.service'
+import { memoryProvider, Memory } from './memory.provider'
 
 import { HomePage } from '../pages/home/home';
 @Component({
