@@ -10,8 +10,6 @@ import { GeoLocService, location, coordinates } from '../../app/services/geoloca
  * Ionic pages and navigation.
  */
 
-declare let Microsoft: any;
-
 @IonicPage()
 @Component({
     selector: 'page-add-memory',
@@ -41,21 +39,17 @@ export class AddMemoryPage {
     addMemory() {
         this.mem.Date = new Date();
 
-        console.log("loc", this.mem.Location)
-
-        let p = Promise.resolve({} as location);
-
         if (Object.keys(this.mem.Location.coords).length == 0) {
-            p = this.geoloc.getLocationWithName(this.mem.Location.name)
+            this.geoloc.getLocationWithName(this.mem.Location.name).then((loc: location) => {
+                this.mem.Location = loc
+                this.memoryProvider.createNewMemory(this.mem);
+                this.navCtrl.pop()
+            }).catch(console.log);
         }
-
-        p.then(() => {
+        else {
             this.memoryProvider.createNewMemory(this.mem);
             this.navCtrl.pop()
-        }).catch(e => {
-            this.memoryProvider.createNewMemory(this.mem);
-            this.navCtrl.pop()
-        });
+        }
     }
 
     ionViewDidLoad() {
@@ -63,10 +57,11 @@ export class AddMemoryPage {
     }
 
     ionViewWillEnter() {
-        this.geoloc.getGPSCoords().then(this.geoloc.getLocation).catch(console.error);
     }
 
     ionViewDidEnter() {
+        // TODO : 1 query per second max
+        this.geoloc.getGPSCoords().then(this.geoloc.getLocation).then((loc:location) => this.mem.Location).catch(console.log);
     }
 
 }

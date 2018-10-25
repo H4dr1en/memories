@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
-import { HttpClient } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http';
 
 export type location = {
     coords: coordinates,
@@ -16,7 +16,7 @@ export type coordinates = {
 @Injectable()
 export class GeoLocService {
 
-    constructor(public http: HttpClient, public geolocation: Geolocation) { }
+    constructor(public geolocation: Geolocation, private http: HTTP) { }
 
     getGPSCoords(): Promise<coordinates> {
         return new Promise((resolve, reject) => {
@@ -32,7 +32,9 @@ export class GeoLocService {
         return new Promise((resolve, reject) => {
             let url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lon}`;
 
-            this.http.get(url).toPromise().then((data: any) => {
+            console.log(url)
+
+            this.http.get(url, {}, {}).then((data: any) => {
                 let loc: location = {
                     coords: coords,
                     zipcode: data.address.postcode,
@@ -47,12 +49,15 @@ export class GeoLocService {
         return new Promise((resolve, reject) => {
             let url = `https://nominatim.openstreetmap.org/search?q=${name}&format=json`;
 
-            this.http.get(url).toPromise().then((data: any) => {
+            console.log(url)
+
+            this.http.get(url, {}, {}).then((res: any) => {
+                let data = JSON.parse(res.data);
                 if (data.length == 0) {
                     reject("Not found")
                 }
                 else {
-                    this.getLocation({lat: data[0].boundingbox.lat, lon: data[0].boundingbox.lon}).then(resolve).catch(reject);
+                    this.getLocation({lat: data[0].lat, lon: data[0].lon}).then(resolve).catch(reject);
                 }
             }).catch(reject);
         });
