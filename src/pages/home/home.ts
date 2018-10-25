@@ -50,7 +50,7 @@ export class HomePage {
     }
 
     ionViewWillEnter() {
-        console.log('ionViewWillEnter HomePage');
+        console.log('ionViewWillEnter HomePage', this.memoryProvider.memories);
     }
 
     ionViewDidLoad() {

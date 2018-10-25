@@ -34,6 +34,7 @@ export class AddMemoryPage {
 
     addMemory() {
         this.mem.Date = new Date();
+        console.log(this.mem)
         this.memoryProvider.createNewMemory(this.mem);
         this.navCtrl.pop();
     }

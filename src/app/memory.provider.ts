@@ -27,6 +27,7 @@ export class memoryProvider {
                     row.Date = new Date(row.Date);
                     row['Tags'] = []
                     row.Mark = 3
+                    row.Location = JSON.parse(row.Location) as Location
                     this.memories.push(row);
                     this.DBS.selectTags(row.rowid).then((result) => {
                         for (let i = 0; i < result.rows.length; i++) {
