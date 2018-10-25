@@ -28,20 +28,20 @@ export class EditMemoryPage {
     }
 
     editMemory() {
-        console.log(this.tagsToAdd,this.tagsToRemove);
-        
-        this.memoryProvider.updateMemory(this.mem,this.tagsToAdd,this.tagsToRemove);
+        console.log(this.tagsToAdd, this.tagsToRemove);
+
+        this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
         this.navCtrl.pop();
     }
 
     onTagChange() {
         this.tags.forEach(tag => {
-            if(this.mem.Tags.indexOf(tag) && this.tagsToAdd.indexOf(tag) === -1){
+            if (this.mem.Tags.indexOf(tag) && this.tagsToAdd.indexOf(tag) === -1) {
                 this.tagsToAdd.push(tag)
             }
         })
         this.mem.Tags.forEach(tag => {
-            if(this.tags.indexOf(tag) === -1 && this.tagsToRemove.indexOf(tag) === -1){
+            if (this.tags.indexOf(tag) === -1 && this.tagsToRemove.indexOf(tag) === -1) {
                 this.tagsToRemove.push(tag)
             }
         })
