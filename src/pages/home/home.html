@@ -23,7 +23,7 @@
             <img src="../../assets/imgs/nin-live.png" />
             <ion-card-content>
                 <ion-card-title>
-                    {{mem.Title | LimitTo: 40}}                    
+                    {{mem.Title | LimitTo: 40}}
                     <ion-icon class="bookmark" (click)="memoryProvider.switchBookmark(mem)" [name]="mem.Bookmark | bookmark"></ion-icon>
                 </ion-card-title>
                 <p>
@@ -40,10 +40,22 @@
             </ion-card-content>
         </ion-card>
     </div>
-
     <ion-fab right bottom>
         <button (click)="showAddMemoryPage()" ion-fab color="blue">
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
 </ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="filters.onlyBookmark">
+            <ion-segment-button [value]="false">
+                <ion-icon name="home"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button [value]="true">
+                <ion-icon name="heart"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-footer>

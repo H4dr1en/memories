@@ -26,7 +26,8 @@ export class HomePage {
         marks: {
             lower: 0,
             upper: 5
-        }
+        },
+        onlyBookmark: false
     };
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider) {

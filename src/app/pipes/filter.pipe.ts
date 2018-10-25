@@ -36,6 +36,10 @@ export class FilterPipe implements PipeTransform {
                 return filters.marks.lower <= el.Mark && el.Mark <= filters.marks.upper;
             })
 
+            memories = memories.filter(function(el){
+                return (filters.onlyBookmark == true && el.Bookmark == 1) || filters.onlyBookmark == false
+            })
+
         } catch (e) {
             console.error(e);
         }        
