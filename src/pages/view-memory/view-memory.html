@@ -19,6 +19,7 @@
     </p>
     <div class="mark-container">
         <ion-icon *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark"></ion-icon>
+        <ion-icon class="bookmark" (click)="memoryProvider.switchBookmark(mem)" [name]="mem.Bookmark | bookmark"></ion-icon>
     </div>
     <div class="tags-container">
         <div class="tag" *ngFor="let tag of mem.Tags">

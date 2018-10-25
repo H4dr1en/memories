@@ -20,7 +20,7 @@ export class memoryProvider {
 
     constructor(protected DBS: DataBaseService) {
         this.DBS.selectMemories().then((result) => {
-            
+
             for (let i = 0; i < result.rows.length; i++) {
                 let row = result.rows.item(i);
                 if (row !== undefined) {
@@ -30,7 +30,7 @@ export class memoryProvider {
                     this.memories.push(row);
                     this.DBS.selectTags(row.rowid).then((result) => {
                         for (let i = 0; i < result.rows.length; i++) {
-                            let tag = result.rows.item(i).Tag;                            
+                            let tag = result.rows.item(i).Tag;
                             if (tag !== undefined) {
                                 this.memories[this.memories.indexOf(row)].Tags.push(tag)
                             }
@@ -42,7 +42,7 @@ export class memoryProvider {
     }
 
     async createNewMemory(memory: Memory) {
-        return this.DBS.insertNewMemory(memory).then((result) => { 
+        return this.DBS.insertNewMemory(memory).then((result) => {
             if (result.insertId) {
                 memory.rowid = result.insertId;
                 if (memory.Tags !== undefined && memory.Tags.length > 0) {
@@ -77,5 +77,13 @@ export class memoryProvider {
         return Promise.all(promises).then(() => {
             this.memories[this.memories.indexOf(memory)] = memory;
         }).catch(e => console.error("SQLITE ERROR", e));
+    }
+
+    async switchBookmark(memory: Memory) {
+        memory.Bookmark = memory.Bookmark ? 0:1
+        return this.DBS.updateMemory(memory).catch((e) => {
+            memory.Bookmark = memory.Bookmark ? 0:1
+            console.error("SQLITE ERROR", e);
+        });
     }
 }
