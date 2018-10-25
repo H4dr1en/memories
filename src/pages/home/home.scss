@@ -1,9 +1,20 @@
 page-home {
     .tags-container {
         display: flex;
+        flex-flow: row wrap;
     }
 
     .tag {
         padding-right: 0.5vw;
+    }
+    .ion-md-heart{
+        color:red;
+    }
+    .icon {
+        font-size:1.7em
+    }
+    .bookmark {
+        float: right;
+        font-size: 1.2em;
     }
 }

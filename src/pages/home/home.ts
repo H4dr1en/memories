@@ -3,7 +3,7 @@ import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
 import { FilterPage } from '../filter/filter';
-import { memoryProvider } from '../../app/memory.provider';
+import { memoryProvider, Memory } from '../../app/memory.provider';
 
 export enum FilterOrder {
     Asc = "Asc",
@@ -32,9 +32,16 @@ export class HomePage {
     constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider) {
     }
 
+    handleClick(event: Event, mem: Memory): void {
+        let elementClass: string = (event.target as Element).className;
+        if (!elementClass.includes("heart")) {
+            this.pushMemory(mem)
+        }
+    }
+
     presentPopover(event) {
-        let popover = this.popoverCtrl.create(FilterPage, {filters: this.filters});
-        popover.present({ev:event});
+        let popover = this.popoverCtrl.create(FilterPage, { filters: this.filters });
+        popover.present({ ev: event });
     }
 
     pushMemory(mem) {

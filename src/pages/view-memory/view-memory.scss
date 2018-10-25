@@ -14,7 +14,7 @@ page-view-memory {
     h1 {
         text-align: center;
         font-weight: 300;
-        font-size: 5vw;
+        font-size: 3em;
         padding: 0 1vw;
     }
     
@@ -29,11 +29,12 @@ page-view-memory {
     }
     
     .icon {
-        font-size:2em
+        font-size:3em
     }
     
     .badge {
         font-size: 1.5rem;
+        padding-top: 0.5em;
     }
     .tag {
         padding-right: 0.5vw;
@@ -42,5 +43,13 @@ page-view-memory {
     .tags-container{
         padding: 0 2vw;
         display: flex;
+        flex-flow: row wrap;
+    }
+    .bookmark {
+        float: right;
+    }
+
+    .ion-md-heart{
+        color:red;
     }
 }

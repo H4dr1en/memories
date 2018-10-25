@@ -31,7 +31,7 @@ export class DataBaseService {
             this.db.executeSql('DROP TABLE IF EXISTS tags', [])
         }).catch(e => console.error("SQLITE ERROR", e))
         */
-        
+
         let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Date VARCHAR(100), Bookmark INTEGER)', [])
             .then(() => {
                 this.db.executeSql('create table if not exists tags(MemId INT,Tag VARCHAT(50),FOREIGN KEY(MemId) REFERENCES memories(rowid))', [])
@@ -45,7 +45,7 @@ export class DataBaseService {
         await this.dbReady;
 
         let query = "INSERT INTO memories (Title, Description, Location, Date, Mark, Bookmark) VALUES (?,?,?,?,?,?)";
-        return this.db.executeSql(query, [memory.Title, memory.Description, JSON.stringify(memory.Location), memory.Date.toString(), memory.Mark, memory.Bookmark || 0]);
+        return this.db.executeSql(query, [memory.Title, memory.Description, JSON.stringify(memory.Location), memory.Date.toString(), memory.Mark, 0]);
     }
 
     async selectMemories(id?: number) {
