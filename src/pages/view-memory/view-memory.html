@@ -15,8 +15,9 @@
     <img src="../../assets/imgs/nin-live.png" />
     <h1> {{ mem.Title }}</h1>
     <p class="content">
-        {{ mem.Description}}
+        {{ mem.Description}} 
     </p>
+    <p *ngIf="mem.Location.name.length > 0"><i>At {{mem.Location.name}} <span *ngIf="mem.Location.coords.lat">{{mem.Location.coords | coordinatesPipe}}</span></i></p>
     <div class="mark-container">
         <ion-icon *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark"></ion-icon>
     </div>

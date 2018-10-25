@@ -31,6 +31,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 import { LimitTo } from './pipes/limitTo.pipe';
 import { MarkPipe } from './pipes/mark.pipe'
+import { coordinatesPipe } from './pipes/coordinates.pipe'
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { MarkPipe } from './pipes/mark.pipe'
     LimitTo,
     FilterPipe,
     SortPipe,
-    MarkPipe
+    MarkPipe,
+    coordinatesPipe
   ],
   imports: [
     BrowserModule,
