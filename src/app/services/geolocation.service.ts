@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 export type location = {
     coords: coordinates,
-    zipcode: number,
+    zipcode: string,
     name: string
 }
 
