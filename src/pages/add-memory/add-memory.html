@@ -24,9 +24,10 @@
             <ion-textarea [(ngModel)]="mem.Description" name="description"></ion-textarea>
         </ion-item>
         <ion-item>
-            <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark" (click)="mem.Mark = i"></ion-icon></ion-label>
-            </ion-item>
-            <ion-item>
+            <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark" (click)="mem.Mark = i"></ion-icon>
+            </ion-label>
+        </ion-item>
+        <ion-item>
             <ion-label>Location</ion-label>
             <ion-input [(ngModel)]="mem.Location.name" name="name"></ion-input>
         </ion-item>
@@ -34,4 +35,7 @@
             [separatorStr]="','"></ion-tags-input>
         <button ion-button type="submit" block>Add Memory</button>
     </form>
+    <ion-card text-center>
+        <div id="map"></div>
+    </ion-card>
 </ion-content>
