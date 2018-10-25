@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 export type location = {
     coords: coordinates,
-    zipcode: number,
+    zipcode: string,
     name: string
 }
 
@@ -16,29 +16,45 @@ export type coordinates = {
 @Injectable()
 export class GeoLocService {
 
-    private appid: string = "dbb9d2574e40052026e845cabcb44965";
-
     constructor(public http: HttpClient, public geolocation: Geolocation) { }
 
-    getLocation(): Promise<location> {
+    getGPSCoords(): Promise<coordinates> {
         return new Promise((resolve, reject) => {
 
-            this.geolocation.getCurrentPosition().then(pos => {
+            this.geolocation.getCurrentPosition({ timeout: 5000 }).then(pos => {
+                let coords: coordinates = { lat: pos.coords.latitude, lon: pos.coords.longitude }
+                resolve(coords);
+            }).catch(reject);
+        });
+    }
 
+    getLocation(coords: coordinates): Promise<location> {
+        return new Promise((resolve, reject) => {
+            let url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lon}`;
+
+            this.http.get(url).toPromise().then((data: any) => {
                 let loc: location = {
-                    coords: { lat: pos.coords.latitude, lon: pos.coords.longitude },
-                    zipcode: null,
-                    name: ''
+                    coords: coords,
+                    zipcode: data.address.postcode,
+                    name: data.address.city
                 }
+                resolve(loc);
+            }).catch(reject);
+        });
+    }
 
-                let url = `http://api.openweathermap.org/data/2.5/weather?lat=${loc.coords.lat}&lon=${loc.coords.lon}&appid=${this.appid}&units=metric&lang=fr`;
-                
-                this.http.get(url).toPromise().then((data:any) => {
-                    console.log(data)                    
-                    loc.name = data.name;
-                    resolve(loc);
-                }).catch(reject);
-            });
+    getLocationWithName(name: string): Promise<location> {
+        return new Promise((resolve, reject) => {
+            let url = `https://nominatim.openstreetmap.org/search?q=${name}&format=json`;
+
+            this.http.get(url).toPromise().then((data: any) => {
+                if (data.length == 0) {
+                    reject("Not found")
+                }
+                else {
+                    this.getLocation({lat: data[0].boundingbox.lat, lon: data[0].boundingbox.lon}).then(resolve).catch(reject);
+                }
+            }).catch(reject);
         });
     }
 }
