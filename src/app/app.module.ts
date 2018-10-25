@@ -13,7 +13,7 @@ import { SQLite } from '@ionic-native/sqlite';
 // Modules
 import { MyApp } from './app.component';
 import { memoryProvider } from './memory.provider';
-import {IonTagsInputModule} from "ionic-tags-input";
+import { IonTagsInputModule } from "ionic-tags-input";
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -30,6 +30,7 @@ import { GeoLocService } from './services/geolocation.service';
 import { FilterPipe } from './pipes/filter.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 import { LimitTo } from './pipes/limitTo.pipe';
+import { MarkPipe } from './pipes/mark.pipe'
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { LimitTo } from './pipes/limitTo.pipe';
     LimitTo,
     FilterPipe,
     SortPipe,
+    MarkPipe
   ],
   imports: [
     BrowserModule,

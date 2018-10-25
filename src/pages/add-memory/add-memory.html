@@ -24,7 +24,7 @@
             <ion-textarea [(ngModel)]="mem.Description" name="description"></ion-textarea>
         </ion-item>
         <ion-item>
-            <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" name="star" (click)="mem.Mark = i" [isActive]="mem.Mark >= i"></ion-icon></ion-label>
+            <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark" (click)="mem.Mark = i"></ion-icon></ion-label>
             </ion-item>
             <ion-item>
             <ion-label>Location</ion-label>
