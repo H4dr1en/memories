@@ -9,6 +9,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Geolocation } from '@ionic-native/geolocation';
 import { SQLite } from '@ionic-native/sqlite';
+import { HTTP } from '@ionic-native/http';
 
 // Modules
 import { MyApp } from './app.component';
@@ -73,6 +74,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     GeoLocService,
     Geolocation,
     SQLite,
+    HTTP,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
