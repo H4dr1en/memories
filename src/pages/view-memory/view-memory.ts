@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular';
 import { EditMemoryPage } from '../edit-memory/edit-memory';
-import { memoryProvider } from '../../app/memory.provider';
+import { memoryProvider, Memory } from '../../app/memory.provider';
 
 
 /**
@@ -19,7 +19,7 @@ import { memoryProvider } from '../../app/memory.provider';
 })
 export class ViewMemoryPage {
 
-    mem: any;
+    mem: Memory;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController, public memoryProvider: memoryProvider) {
         this.mem = navParams.get("mem");
@@ -43,7 +43,7 @@ export class ViewMemoryPage {
                     handler: () => {
                         this.showDeleteAlert();
                     }
-                },  
+                },
                 {
                     text: 'Cancel',
                     icon: "close",
@@ -76,6 +76,14 @@ export class ViewMemoryPage {
     deleteMemory() {
         this.memoryProvider.deleteMemory(this.mem);
         this.navCtrl.pop();
+    }
+
+    updateMark(mark: number) {
+        let rollback = this.mem.Mark
+        this.mem.Mark = mark;
+        this.memoryProvider.updateMemory(this.mem).catch(e => {
+            this.mem.Mark = rollback;
+        })
     }
 
     showEditMemoryPage() {
