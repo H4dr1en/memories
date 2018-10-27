@@ -4,7 +4,6 @@ import { HTTP } from '@ionic-native/http';
 
 export type location = {
     coords: coordinates,
-    zipcode: string,
     name: string
 }
 
@@ -15,6 +14,8 @@ export type coordinates = {
 
 @Injectable()
 export class GeoLocService {
+
+    private email: string = "alt.gi-ewb342y@yopmail.com";
 
     constructor(public geolocation: Geolocation, private http: HTTP) { }
 
@@ -30,34 +31,69 @@ export class GeoLocService {
 
     getLocation(coords: coordinates): Promise<location> {
         return new Promise((resolve, reject) => {
-            let url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lon}`;
+            let url = `https://nominatim.openstreetmap.org/reverse?email=${this.email}&format=json&lat=${coords.lat}&lon=${coords.lon}`;
 
             console.log(url)
 
-            this.http.get(url, {}, {}).then((data: any) => {
+            this.http.get(url, {}, {}).then((res: any) => {
+                let data = JSON.parse(res.data);
+
+                console.log(data)
+
+                let name = "";
+
+                if (data.address.suburb)
+                    name = data.address.suburb;
+
+                else if (data.address.village)
+                    name = data.address.village;
+
+                else if (data.address.town)
+                    name = data.address.town;
+
+                else if (data.address.city_district)
+                    name = data.address.city_district;
+
+                else if (data.address.city)
+                    name = data.address.city;
+
+                else if (data.address.state_district)
+                    name = data.address.state_district;
+
+                else if (data.address.state)
+                    name = data.address.state;
+
+                else if (data.address.country)
+                    name = data.address.country;
+
+                else
+                    name = "";
+
                 let loc: location = {
                     coords: coords,
-                    zipcode: data.address.postcode,
-                    name: data.address.city
+                    name: name
                 }
                 resolve(loc);
             }).catch(reject);
         });
     }
 
-    getLocationWithName(name: string): Promise<location> {
+    getCoordsWithName(name: string): Promise<coordinates> {
         return new Promise((resolve, reject) => {
-            let url = `https://nominatim.openstreetmap.org/search?q=${name}&format=json`;
+            let url = `https://nominatim.openstreetmap.org/search?email=${this.email}&q=${name}&format=json`;
 
             console.log(url)
 
             this.http.get(url, {}, {}).then((res: any) => {
                 let data = JSON.parse(res.data);
+
+                console.log(data)
+
                 if (data.length == 0) {
                     reject("Not found")
                 }
                 else {
-                    this.getLocation({lat: data[0].lat, lon: data[0].lon}).then(resolve).catch(reject);
+                    resolve({ lat: Number.parseFloat(data[0].lat), lon: Number.parseFloat(data[0].lon) });
                 }
             }).catch(reject);
         });

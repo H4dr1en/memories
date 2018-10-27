@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataBaseService } from './services/sql.service'
-import { location } from './services/geolocation.service';
+import { location, coordinates } from './services/geolocation.service';
 
 export type Memory = {
     rowid: number;
@@ -26,7 +26,6 @@ export class memoryProvider {
                 if (row !== undefined) {
                     row.Date = new Date(row.Date);
                     row['Tags'] = []
-                    row.Mark = 3
                     row.Location = JSON.parse(row.Location) as Location
                     this.memories.push(row);
                     this.DBS.selectTags(row.rowid).then((result) => {
