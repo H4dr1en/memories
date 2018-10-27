@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
+import { GeoLocService, coordinates } from '../../app/services/geolocation.service';
 
 
 /**
@@ -21,17 +22,26 @@ export class EditMemoryPage {
     tags: any[] = []
     tagsToRemove: any[] = []
     tagsToAdd: any[] = []
+    previousLocName: string;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
         this.mem = this.navParams.get('mem');
         this.tags = this.mem.Tags
+        this.previousLocName = this.mem.Location.name;
     }
 
     editMemory() {
-        console.log(this.tagsToAdd, this.tagsToRemove);
-
-        this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
-        this.navCtrl.pop();
+        if (this.previousLocName != this.mem.Location.name) {
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+                this.mem.Location.coords = coords;
+                this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
+                this.navCtrl.pop();
+            }).catch(console.error);
+        }
+        else {
+            this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
+            this.navCtrl.pop();
+        }
     }
 
     onTagChange() {

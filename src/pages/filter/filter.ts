@@ -15,7 +15,7 @@ import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angul
 })
 export class FilterPage {
 
-    filters : any;
+    filters: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, ) {
         this.filters = navParams.get('filters');
@@ -27,5 +27,13 @@ export class FilterPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad FilterPage');
+    }
+
+    isfilterActive() {
+        return this.filters.tags.length || this.filters.searchTerm.length || this.filters.marks.lower > 1 || this.filters.marks.upper < 5;
+    }
+
+    ionViewWillLeave() {
+        this.filters.active = this.isfilterActive();
     }
 }

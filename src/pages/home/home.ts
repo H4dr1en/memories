@@ -24,10 +24,11 @@ export class HomePage {
             order: FilterOrder.Asc
         },
         marks: {
-            lower: 0,
+            lower: 1,
             upper: 5
         },
-        onlyBookmark: false
+        onlyBookmark: false,
+        active: false
     };
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider) {
@@ -64,5 +65,4 @@ export class HomePage {
     ionViewDidLoad() {
         console.log('ionViewDidLoad HomePage');
     }
-
 } 

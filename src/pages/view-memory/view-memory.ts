@@ -87,7 +87,6 @@ export class ViewMemoryPage {
     }
 
     showEditMemoryPage() {
-        console.log(this.mem)
         const modal = this.navCtrl.push(EditMemoryPage, { mem: this.mem });
     }
 

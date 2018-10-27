@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataBaseService } from './services/sql.service'
-import { location, coordinates } from './services/geolocation.service';
+import { location } from './services/geolocation.service';
 
 export type Memory = {
     rowid: number;

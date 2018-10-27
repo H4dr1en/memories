@@ -33,13 +33,8 @@ export class GeoLocService {
         return new Promise((resolve, reject) => {
             let url = `https://nominatim.openstreetmap.org/reverse?email=${this.email}&format=json&lat=${coords.lat}&lon=${coords.lon}`;
 
-            console.log(url)
-
             this.http.get(url, {}, {}).then((res: any) => {
                 let data = JSON.parse(res.data);
-
-                console.log(data)
-
                 let name = "";
 
                 if (data.address.suburb)
@@ -82,13 +77,8 @@ export class GeoLocService {
         return new Promise((resolve, reject) => {
             let url = `https://nominatim.openstreetmap.org/search?email=${this.email}&q=${name}&format=json`;
 
-            console.log(url)
-
             this.http.get(url, {}, {}).then((res: any) => {
                 let data = JSON.parse(res.data);
-
-                console.log(data)
-
                 if (data.length == 0) {
                     reject("Not found")
                 }

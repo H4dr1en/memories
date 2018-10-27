@@ -9,8 +9,8 @@
                 <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Desc'" name="arrow-round-up"></ion-icon>
             </button>
             <button ion-button icon-only (click)="presentPopover($event)">
-                <ion-icon *ngIf="filters.sort.field.length > 0" color="primary" name="funnel"></ion-icon>
-                <ion-icon *ngIf="filters.sort.field.length == 0" name="funnel"></ion-icon>
+                <ion-icon *ngIf="filters.active" color="primary" name="funnel"></ion-icon>
+                <ion-icon *ngIf="!filters.active" name="funnel"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>

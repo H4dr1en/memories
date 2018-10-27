@@ -33,10 +33,10 @@
 
     <ion-row>
         <ion-item>
-            <ion-label color="primary" stacked>Mark Range</ion-label>
+            <ion-label color="primary" stacked>Mark Range ({{filters.marks.lower}} to {{filters.marks.upper}})</ion-label>
             <ion-range class="filter" min="1" max="5" step="1" dualKnobs="true" pin="true" [(ngModel)]="filters.marks"
                 color="dark">
-                <ion-label range-left>0</ion-label>
+                <ion-label range-left>1</ion-label>
                 <ion-label range-right>5</ion-label>
             </ion-range>
         </ion-item>

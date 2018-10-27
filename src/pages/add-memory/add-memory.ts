@@ -28,7 +28,7 @@ export class AddMemoryPage {
                 coords: {} as coordinates,
                 name: 'Locating...'
             },
-            Mark: 0,
+            Mark: 1,
             Tags: [],
             Date: undefined,
             Bookmark: 0
