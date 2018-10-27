@@ -26,8 +26,7 @@ export class AddMemoryPage {
             Description: "Johnny is so excited, while I'm really tired.",
             Location: {
                 coords: {} as coordinates,
-                zipcode: '',
-                name: ''
+                name: 'Locating...'
             },
             Mark: 0,
             Tags: [],
@@ -40,11 +39,11 @@ export class AddMemoryPage {
         this.mem.Date = new Date();
 
         if (Object.keys(this.mem.Location.coords).length == 0) {
-            this.geoloc.getLocationWithName(this.mem.Location.name).then((loc: location) => {
-                this.mem.Location = loc
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+                this.mem.Location.coords = coords;
                 this.memoryProvider.createNewMemory(this.mem);
                 this.navCtrl.pop()
-            }).catch(console.log);
+            }).catch(console.error);
         }
         else {
             this.memoryProvider.createNewMemory(this.mem);
@@ -60,8 +59,13 @@ export class AddMemoryPage {
     }
 
     ionViewDidEnter() {
-        // TODO : 1 query per second max
-        this.geoloc.getGPSCoords().then(this.geoloc.getLocation).then((loc:location) => this.mem.Location).catch(console.log);
+        this.geoloc.getGPSCoords()
+            .then((coords: coordinates) => this.geoloc.getLocation(coords))
+            .then((loc: location) => this.mem.Location = loc)
+            .catch(e => {
+                this.mem.Location.name = "";
+                console.error(e);
+            });
     }
 
 }

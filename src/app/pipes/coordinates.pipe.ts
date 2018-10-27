@@ -7,6 +7,6 @@ import { coordinates } from '../services/geolocation.service';
 
 export class coordinatesPipe implements PipeTransform {
     transform(coords: coordinates): string {
-        return `(${coords.lat.toFixed(2)};${coords.lon.toFixed(2)}`;
+        return `(${coords.lat.toFixed(2)},${coords.lon.toFixed(2)})`;
     }
 } 
