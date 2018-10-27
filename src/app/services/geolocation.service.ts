@@ -80,7 +80,7 @@ export class GeoLocService {
             this.http.get(url, {}, {}).then((res: any) => {
                 let data = JSON.parse(res.data);
                 if (data.length == 0) {
-                    reject("Not found")
+                    resolve({} as coordinates);
                 }
                 else {
                     resolve({ lat: Number.parseFloat(data[0].lat), lon: Number.parseFloat(data[0].lon) });

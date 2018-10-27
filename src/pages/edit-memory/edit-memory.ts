@@ -34,14 +34,20 @@ export class EditMemoryPage {
         if (this.previousLocName != this.mem.Location.name) {
             this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
                 this.mem.Location.coords = coords;
-                this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
-                this.navCtrl.pop();
-            }).catch(console.error);
+                this.saveAndQuit();
+            }).catch(e => {
+                console.error(e);
+                this.saveAndQuit();
+            });
         }
         else {
-            this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
-            this.navCtrl.pop();
+            this.saveAndQuit();
         }
+    }
+
+    saveAndQuit() {
+        this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
+        this.navCtrl.pop();
     }
 
     onTagChange() {
