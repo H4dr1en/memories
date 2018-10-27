@@ -3,13 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
 import { GeoLocService, location } from '../../app/services/geolocation.service'
 import { ILatLng } from '@ionic-native/google-maps';
+import {Camera} from '@ionic-native/camera';
 
-/**
- * Generated class for the AddMemoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -30,6 +25,7 @@ export class AddMemoryPage {
                 name: 'Locating...'
             },
             Mark: 1,
+            Img: "",
             Tags: [],
             Date: undefined,
             Bookmark: 0
@@ -50,6 +46,10 @@ export class AddMemoryPage {
             this.memoryProvider.createNewMemory(this.mem);
             this.navCtrl.pop()
         }
+    }
+
+    takePicture(){
+
     }
 
     ionViewDidLoad() {

@@ -32,7 +32,7 @@ export class DataBaseService {
         }).catch(e => console.error("SQLITE ERROR", e))
         */
 
-        let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT, Date VARCHAR(100), Bookmark INTEGER)', [])
+        let promise = this.db.executeSql('create table if not exists memories(Title VARCHAR(32), Description VARCHAR(550),Location VARCHAR(150),Mark INT,Img VARCHAR(100), Date VARCHAR(100), Bookmark INTEGER)', [])
             .then(() => {
                 this.db.executeSql('create table if not exists tags(MemId INT,Tag VARCHAT(50),FOREIGN KEY(MemId) REFERENCES memories(rowid))', [])
             })
@@ -44,8 +44,8 @@ export class DataBaseService {
     async insertNewMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "INSERT INTO memories (Title, Description, Location, Date, Mark, Bookmark) VALUES (?,?,?,?,?,?)";
-        return this.db.executeSql(query, [memory.Title, memory.Description, JSON.stringify(memory.Location), memory.Date.toString(), memory.Mark, 0]);
+        let query = "INSERT INTO memories (Title, Description, Location, Date, Mark,Img, Bookmark) VALUES (?,?,?,?,?,?,?)";
+        return this.db.executeSql(query, [memory.Title, memory.Description, JSON.stringify(memory.Location), memory.Date.toString(), memory.Mark, memory.Img, 0]);
     }
 
     async selectMemories(id?: number) {
@@ -64,8 +64,8 @@ export class DataBaseService {
     async updateMemory(memory: Memory) {
         await this.dbReady;
 
-        let query = "UPDATE memories set Title = ?,  Description = ?, Location = ?, Bookmark = ?, Mark = ? WHERE ROWID = ?";
-        return this.db.executeSql(query, [memory.Title, memory.Description, JSON.stringify(memory.Location), memory.Bookmark, memory.Mark, memory.rowid]);
+        let query = "UPDATE memories set Title = ?,  Description = ?, Location = ?, Bookmark = ?, Mark = ?, Img = ? WHERE ROWID = ?";
+        return this.db.executeSql(query, [memory.Title, memory.Description, JSON.stringify(memory.Location), memory.Bookmark, memory.Mark, memory.Img, memory.rowid]);
     }
 
     async deleteMemory(memory: Memory) {
