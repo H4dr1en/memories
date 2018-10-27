@@ -17,7 +17,10 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar [(ngModel)]="filters.searchTerm"></ion-searchbar>
+    <ion-toolbar no-border-top>
+        <ion-searchbar [(ngModel)]="filters.searchTerm">
+        </ion-searchbar>
+    </ion-toolbar>
     <div *ngFor="let mem of memoryProvider.memories | filter:filters | sort:filters.sort">
         <ion-card (click)="handleClick($event,mem)">
             <img src="../../assets/imgs/nin-live.png" />
@@ -50,11 +53,14 @@
 <ion-footer>
     <ion-toolbar>
         <ion-segment [(ngModel)]="filters.onlyBookmark">
-            <ion-segment-button [value]="false">
+            <ion-segment-button [value]="true">
                 <ion-icon name="home"></ion-icon>
             </ion-segment-button>
-            <ion-segment-button [value]="true">
+            <ion-segment-button [value]="false">
                 <ion-icon name="heart"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button [value]="false">
+                <ion-icon name="map"></ion-icon>
             </ion-segment-button>
         </ion-segment>
     </ion-toolbar>

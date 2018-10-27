@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Geolocation } from '@ionic-native/geolocation';
 import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 // Modules
 import { MyApp } from './app.component';
@@ -22,6 +23,7 @@ import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
 import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
 import { FilterPage } from '../pages/filter/filter';
+import { MapPage } from '../pages/map/map';
 
 // Services
 import { DataBaseService } from './services/sql.service'
@@ -44,6 +46,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     AddMemoryPage,
     EditMemoryPage,
     FilterPage,
+    MapPage,
     LimitTo,
     FilterPipe,
     SortPipe,
@@ -64,7 +67,8 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     ViewMemoryPage,
     AddMemoryPage,
     EditMemoryPage,
-    FilterPage
+    FilterPage,
+    MapPage,
   ],
   providers: [
     StatusBar,
@@ -75,6 +79,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     Geolocation,
     SQLite,
     HTTP,
+    GoogleMaps,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
