@@ -1,17 +1,39 @@
+// Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
+// Ionic Modules
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { LimitTo } from './limitTo.pipe';
+import { Geolocation } from '@ionic-native/geolocation';
+import { SQLite } from '@ionic-native/sqlite';
+import { HTTP } from '@ionic-native/http';
 
+// Modules
 import { MyApp } from './app.component';
+import { memoryProvider } from './memory.provider';
+import { IonTagsInputModule } from "ionic-tags-input";
+
+// Pages
 import { HomePage } from '../pages/home/home';
-import { memoryUpdater, DataBaseService } from './sql.service'
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
 import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
+import { FilterPage } from '../pages/filter/filter';
+
+// Services
+import { DataBaseService } from './services/sql.service'
+import { GeoLocService } from './services/geolocation.service';
+
+// Pipes
+import { FilterPipe } from './pipes/filter.pipe';
+import { SortPipe } from './pipes/sort.pipe';
+import { LimitTo } from './pipes/limitTo.pipe';
+import { MarkPipe } from './pipes/mark.pipe'
+import { BookmarkPipe } from './pipes/bookmark.pipe'
+import { coordinatesPipe } from './pipes/coordinates.pipe'
 
 
 @NgModule({
@@ -21,11 +43,19 @@ import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
     ViewMemoryPage,
     AddMemoryPage,
     EditMemoryPage,
-    LimitTo
+    FilterPage,
+    LimitTo,
+    FilterPipe,
+    SortPipe,
+    MarkPipe,
+    BookmarkPipe,
+    coordinatesPipe
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpClientModule,
+    IonicModule.forRoot(MyApp),
+    IonTagsInputModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -33,14 +63,18 @@ import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
     HomePage,
     ViewMemoryPage,
     AddMemoryPage,
-    EditMemoryPage
+    EditMemoryPage,
+    FilterPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    memoryUpdater,
+    memoryProvider,
     DataBaseService,
+    GeoLocService,
+    Geolocation,
     SQLite,
+    HTTP,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

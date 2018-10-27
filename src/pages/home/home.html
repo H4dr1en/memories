@@ -3,28 +3,59 @@
         <ion-title>
             Memories
         </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="swapfilterOrder()">
+                <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Asc'" name="arrow-round-down"></ion-icon>
+                <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Desc'" name="arrow-round-up"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon *ngIf="filters.active" color="primary" name="funnel"></ion-icon>
+                <ion-icon *ngIf="!filters.active" name="funnel"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-searchbar (ionInput)="getSearchedItems($event)"></ion-searchbar>
-    <div *ngFor="let mem of memoryUpdater.memories">
-        <ion-card (click)="pushMemory(mem)">
+    <ion-searchbar [(ngModel)]="filters.searchTerm"></ion-searchbar>
+    <div *ngFor="let mem of memoryProvider.memories | filter:filters | sort:filters.sort">
+        <ion-card (click)="handleClick($event,mem)">
             <img src="../../assets/imgs/nin-live.png" />
             <ion-card-content>
                 <ion-card-title>
                     {{mem.Title | LimitTo: 40}}
+                    <ion-icon class="bookmark" (click)="memoryProvider.switchBookmark(mem)" [name]="mem.Bookmark | bookmark"></ion-icon>
                 </ion-card-title>
                 <p>
                     {{ mem.Description | LimitTo: 300 }}
                 </p>
+                <div class="mark-container">
+                    <ion-icon *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark"></ion-icon>
+                </div>
+                <div class="tags-container">
+                    <div class="tag" *ngFor="let tag of mem.Tags">
+                        <ion-badge color="primary">{{tag}}</ion-badge>
+                    </div>
+                </div>
             </ion-card-content>
         </ion-card>
     </div>
-
     <ion-fab right bottom>
         <button (click)="showAddMemoryPage()" ion-fab color="blue">
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
 </ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="filters.onlyBookmark">
+            <ion-segment-button [value]="false">
+                <ion-icon name="home"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button [value]="true">
+                <ion-icon name="heart"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-footer>

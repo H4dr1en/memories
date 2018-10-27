@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar>
-        <ion-title>{{mem.Location || "Memory"}}</ion-title>        
+        <ion-title>Memory</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -15,11 +15,22 @@
     <img src="../../assets/imgs/nin-live.png" />
     <h1> {{ mem.Title }}</h1>
     <p class="content">
-        {{ mem.Description}}
+        {{ mem.Description}} 
     </p>
-
+    <p *ngIf="mem.Location.name.length > 0"><i>At {{mem.Location.name}} <span *ngIf="mem.Location.coords.lat">{{mem.Location.coords | coordinatesPipe}}</span></i></p>
+    <div class="mark-container">
+        <ion-icon *ngFor="let i of [1,2,3,4,5]" (click)="updateMark(i)" [name]="i | mark:mem.Mark"></ion-icon>
+        <ion-icon class="bookmark" (click)="memoryProvider.switchBookmark(mem)" [name]="mem.Bookmark | bookmark"></ion-icon>
+    </div>
+    <div class="tags-container">
+        <div class="tag" *ngFor="let tag of mem.Tags">
+            <ion-badge color="primary">{{tag}}</ion-badge>
+        </div>
+    </div>
     <ion-fab right bottom>
-        <button ion-fab (click)="presentActionSheet()"><ion-icon name="create"></ion-icon></button>
+        <button ion-fab (click)="presentActionSheet()">
+            <ion-icon name="create"></ion-icon>
+        </button>
     </ion-fab>
 
 </ion-content>

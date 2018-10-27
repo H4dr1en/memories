@@ -20,13 +20,18 @@
             <ion-input type="text" [(ngModel)]="mem.Title" name="Title"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label>LOcation</ion-label>
-            <ion-input type="text" [(ngModel)]="mem.Location" name="Location"></ion-input>
+            <ion-label>Location</ion-label>
+            <ion-input type="text" [(ngModel)]="mem.Location.name" name="Location"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label>Description</ion-label>
             <ion-textarea [(ngModel)]="mem.Description" name="Description"></ion-textarea>
         </ion-item>
+        <ion-item>
+            <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark" (click)="mem.Mark = i"></ion-icon></ion-label>
+        </ion-item>
+        <ion-tags-input name="tags" [(ngModel)]="tags" [canEnterAdd]="true" [canBackspaceRemove]="true"
+            [separatorStr]="','" (change)="onTagChange($event)"></ion-tags-input>
         <button ion-button type="submit" block>Save Memory</button>
     </form>
 

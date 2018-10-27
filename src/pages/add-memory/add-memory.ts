@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { memoryUpdater, Memory } from '../../app/sql.service'
+import { memoryProvider, Memory } from '../../app/memory.provider'
+import { GeoLocService, location, coordinates } from '../../app/services/geolocation.service'
 
 /**
  * Generated class for the AddMemoryPage page.
@@ -18,26 +19,53 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,  public memoryUpdater: memoryUpdater) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
         this.mem = {
-            rowid : undefined,
-            Title : "Last day in San Francisco",
-            Description : "Johnny is so excited, while I'm really tired.",
-            Location : "San Francisco",
-            Mark: undefined,
-            Tags: undefined,
-            Date: undefined
-        }              
+            rowid: undefined,
+            Title: "Last day in San Francisco",
+            Description: "Johnny is so excited, while I'm really tired.",
+            Location: {
+                coords: {} as coordinates,
+                name: 'Locating...'
+            },
+            Mark: 1,
+            Tags: [],
+            Date: undefined,
+            Bookmark: 0
+        }
     }
 
     addMemory() {
         this.mem.Date = new Date();
-        this.memoryUpdater.createNewMemory(this.mem);
-        this.navCtrl.pop();
+
+        if (Object.keys(this.mem.Location.coords).length == 0) {
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+                this.mem.Location.coords = coords;
+                this.memoryProvider.createNewMemory(this.mem);
+                this.navCtrl.pop()
+            }).catch(console.error);
+        }
+        else {
+            this.memoryProvider.createNewMemory(this.mem);
+            this.navCtrl.pop()
+        }
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad AddMemoryPage');
+    }
+
+    ionViewWillEnter() {
+    }
+
+    ionViewDidEnter() {
+        this.geoloc.getGPSCoords()
+            .then((coords: coordinates) => this.geoloc.getLocation(coords))
+            .then((loc: location) => this.mem.Location = loc)
+            .catch(e => {
+                this.mem.Location.name = "";
+                console.error(e);
+            });
     }
 
 }

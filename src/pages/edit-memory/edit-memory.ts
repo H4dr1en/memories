@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { memoryUpdater, Memory } from '../../app/sql.service'
+import { memoryProvider, Memory } from '../../app/memory.provider'
+import { GeoLocService, coordinates } from '../../app/services/geolocation.service';
 
 
 /**
@@ -18,14 +19,48 @@ import { memoryUpdater, Memory } from '../../app/sql.service'
 export class EditMemoryPage {
 
     mem: Memory
+    tags: any[] = []
+    tagsToRemove: any[] = []
+    tagsToAdd: any[] = []
+    previousLocName: string;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryUpdater: memoryUpdater) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
         this.mem = this.navParams.get('mem');
+        this.tags = this.mem.Tags
+        this.previousLocName = this.mem.Location.name;
     }
 
     editMemory() {
-        this.memoryUpdater.updateMemory(this.mem);
+        if (this.previousLocName != this.mem.Location.name) {
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+                this.mem.Location.coords = coords;
+                this.saveAndQuit();
+            }).catch(e => {
+                console.error(e);
+                this.saveAndQuit();
+            });
+        }
+        else {
+            this.saveAndQuit();
+        }
+    }
+
+    saveAndQuit() {
+        this.memoryProvider.updateMemory(this.mem, this.tagsToAdd, this.tagsToRemove);
         this.navCtrl.pop();
+    }
+
+    onTagChange() {
+        this.tags.forEach(tag => {
+            if (this.mem.Tags.indexOf(tag) && this.tagsToAdd.indexOf(tag) === -1) {
+                this.tagsToAdd.push(tag)
+            }
+        })
+        this.mem.Tags.forEach(tag => {
+            if (this.tags.indexOf(tag) === -1 && this.tagsToRemove.indexOf(tag) === -1) {
+                this.tagsToRemove.push(tag)
+            }
+        })
     }
 
     ionViewDidLoad() {
