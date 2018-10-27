@@ -11,6 +11,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
 import { GoogleMaps } from '@ionic-native/google-maps';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 // Modules
 import { MyApp } from './app.component';
@@ -80,6 +81,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     SQLite,
     HTTP,
     GoogleMaps,
+    SocialSharing,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
