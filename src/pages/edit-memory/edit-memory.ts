@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
-import { GeoLocService, coordinates } from '../../app/services/geolocation.service';
+import { GeoLocService } from '../../app/services/geolocation.service';
+import { ILatLng } from '@ionic-native/google-maps';
 
 
 /**
@@ -32,7 +33,7 @@ export class EditMemoryPage {
 
     editMemory() {
         if (this.previousLocName != this.mem.Location.name) {
-            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: ILatLng) => {
                 this.mem.Location.coords = coords;
                 this.saveAndQuit();
             }).catch(e => {

@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { coordinates } from '../services/geolocation.service';
+import { ILatLng } from '@ionic-native/google-maps';
 
 @Pipe({
     name: 'coordinatesPipe'
 })
 
 export class coordinatesPipe implements PipeTransform {
-    transform(coords: coordinates): string {
-        return `(${coords.lat.toFixed(2)},${coords.lon.toFixed(2)})`;
+    transform(coords: ILatLng): string {
+        return `(${coords.lat.toFixed(2)},${coords.lng.toFixed(2)})`;
     }
 } 

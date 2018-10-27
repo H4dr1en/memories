@@ -4,6 +4,7 @@ import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
 import { FilterPage } from '../filter/filter';
 import { memoryProvider, Memory } from '../../app/memory.provider';
+import { MapPage } from '../map/map';
 
 export enum FilterOrder {
     Asc = "Asc",
@@ -32,6 +33,10 @@ export class HomePage {
     };
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider) {
+    }
+
+    showMap() {
+        this.navCtrl.push(MapPage, { 'memories': this.memoryProvider.memories });
     }
 
     handleClick(event: Event, mem: Memory): void {

@@ -58,7 +58,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    IonTagsInputModule
+    IonTagsInputModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { HTTP } from '@ionic-native/http';
+import { ILatLng } from '@ionic-native/google-maps';
 
 export type location = {
-    coords: coordinates,
+    coords: ILatLng,
     name: string
-}
-
-export type coordinates = {
-    lat: number,
-    lon: number
 }
 
 @Injectable()
@@ -19,19 +15,19 @@ export class GeoLocService {
 
     constructor(public geolocation: Geolocation, private http: HTTP) { }
 
-    getGPSCoords(): Promise<coordinates> {
+    getGPSCoords(): Promise<ILatLng> {
         return new Promise((resolve, reject) => {
 
             this.geolocation.getCurrentPosition({ timeout: 5000 }).then(pos => {
-                let coords: coordinates = { lat: pos.coords.latitude, lon: pos.coords.longitude }
+                let coords: ILatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude }
                 resolve(coords);
             }).catch(reject);
         });
     }
 
-    getLocation(coords: coordinates): Promise<location> {
+    getLocation(coords: ILatLng): Promise<location> {
         return new Promise((resolve, reject) => {
-            let url = `https://nominatim.openstreetmap.org/reverse?email=${this.email}&format=json&lat=${coords.lat}&lon=${coords.lon}`;
+            let url = `https://nominatim.openstreetmap.org/reverse?email=${this.email}&format=json&lat=${coords.lat}&lon=${coords.lng}`;
 
             this.http.get(url, {}, {}).then((res: any) => {
                 let data = JSON.parse(res.data);
@@ -73,17 +69,17 @@ export class GeoLocService {
         });
     }
 
-    getCoordsWithName(name: string): Promise<coordinates> {
+    getCoordsWithName(name: string): Promise<ILatLng> {
         return new Promise((resolve, reject) => {
             let url = `https://nominatim.openstreetmap.org/search?email=${this.email}&q=${name}&format=json`;
 
             this.http.get(url, {}, {}).then((res: any) => {
                 let data = JSON.parse(res.data);
                 if (data.length == 0) {
-                    resolve({} as coordinates);
+                    resolve({} as ILatLng);
                 }
                 else {
-                    resolve({ lat: Number.parseFloat(data[0].lat), lon: Number.parseFloat(data[0].lon) });
+                    resolve({ lat: Number.parseFloat(data[0].lat), lng: Number.parseFloat(data[0].lon) } as ILatLng);
                 }
             }).catch(reject);
         });

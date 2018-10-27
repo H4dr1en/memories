@@ -4,6 +4,9 @@
             Memories
         </ion-title>
         <ion-buttons end>
+            <button ion-button icon-only (click)="showMap()">
+                <ion-icon name="map"></ion-icon>
+            </button>
             <button ion-button icon-only (click)="swapfilterOrder()">
                 <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Asc'" name="arrow-round-down"></ion-icon>
                 <ion-icon *ngIf="filters.sort.field.length > 0 && filters.sort.order == 'Desc'" name="arrow-round-up"></ion-icon>
@@ -53,14 +56,11 @@
 <ion-footer>
     <ion-toolbar>
         <ion-segment [(ngModel)]="filters.onlyBookmark">
-            <ion-segment-button [value]="true">
+            <ion-segment-button [value]="false">
                 <ion-icon name="home"></ion-icon>
             </ion-segment-button>
-            <ion-segment-button [value]="false">
+            <ion-segment-button [value]="true">
                 <ion-icon name="heart"></ion-icon>
-            </ion-segment-button>
-            <ion-segment-button [value]="false">
-                <ion-icon name="map"></ion-icon>
             </ion-segment-button>
         </ion-segment>
     </ion-toolbar>

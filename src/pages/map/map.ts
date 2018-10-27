@@ -5,11 +5,11 @@ import {
     GoogleMap,
     GoogleMapsEvent,
     ILatLng,
-    LatLng,
     Marker,
-    MarkerOptions,
-    BaseArrayClass
+    MarkerOptions
 } from '@ionic-native/google-maps';
+import { Memory } from '../../app/memory.provider';
+import { ViewMemoryPage } from '../view-memory/view-memory';
 
 
 @IonicPage()
@@ -21,23 +21,23 @@ export class MapPage {
     @ViewChild('map') mapElement: ElementRef;
 
     map: GoogleMap;
+    memories: Memory[];
 
     constructor(public plt: Platform, public navCtrl: NavController, public navParams: NavParams) {
-
+        this.memories = navParams.get("memories");
     }
 
-    ionViewDidEnter() {
-        console.log('ionViewDidEnter MarkerPage');
+    ionViewWillEnter() {
+        console.log('ionViewDidEnter MapPage');
 
         this.plt.ready().then(() => {
-            console.log("init map")
             this.initMap();
         });
     }
 
     initMap() {
 
-        let bounds: ILatLng[] = [{ lat: 41.79883, lng: 140.75675 }, { lat: 41.799240000000005, lng: 140.75875000000002 }, { lat: 41.797650000000004, lng: 140.75905 }]
+        let bounds: ILatLng[] = this.memories.map<ILatLng>((mem: Memory) => mem.Location.coords);
 
         let el = this.mapElement.nativeElement;
         this.map = GoogleMaps.create(el, {
@@ -49,17 +49,18 @@ export class MapPage {
         this.map.one(GoogleMapsEvent.MAP_READY).then((data: any) => {
             this.map.setCameraZoom(this.map.getCameraZoom() - 1)
 
-            bounds.forEach(coords => {
+            this.memories.forEach(mem => {
 
                 let markerOptions: MarkerOptions = {
-                    position: coords,
-                    title: 'Our first POI'
+                    position: mem.Location.coords,
+                    title: mem.Title,
+                    mem: mem
                 };
 
                 this.map.addMarker(markerOptions)
                     .then((marker: Marker) => {
-                        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(this.onMarkerClick);
-                        marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(this.onMarkerClick);
+                        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(this.onMarkerClick.bind(this));
+                        marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(this.onMarkerClick.bind(this));
                         marker.showInfoWindow();
                     });
 
@@ -67,10 +68,13 @@ export class MapPage {
         })
     }
 
-    onMarkerClick(params: any) {
-        let marker: Marker = <Marker>params[1];
-        let title: any = marker.get('title');
-        console.log(title)
+    showMemory(mem) {
+        this.navCtrl.push(ViewMemoryPage, { 'mem': mem });
     }
 
+    onMarkerClick(params: any) {
+        let marker: Marker = <Marker>params[1];
+        let mem: Memory = marker.get('mem');
+        this.showMemory(mem);
+    }
 }

@@ -87,7 +87,7 @@ export class ViewMemoryPage {
     }
 
     showEditMemoryPage() {
-        const modal = this.navCtrl.push(EditMemoryPage, { mem: this.mem });
+        this.navCtrl.push(EditMemoryPage, { mem: this.mem });
     }
 
     ionViewDidLoad() {
