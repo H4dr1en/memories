@@ -26,7 +26,8 @@
     </ion-toolbar>
     <div *ngFor="let mem of memoryProvider.memories | filter:filters | sort:filters.sort">
         <ion-card (click)="handleClick($event,mem)">
-            <img src="../../assets/imgs/nin-live.png" />
+            <img *ngIf="mem.img === ''" src="../../assets/imgs/nin-live.png" />
+            <img *ngIf="mem.img !== ''" [src]=""/>
             <ion-card-content>
                 <ion-card-title>
                     {{mem.Title | LimitTo: 40}}

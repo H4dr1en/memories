@@ -9,6 +9,7 @@ export type Memory = {
     Location: location;
     Mark: number;
     Date: Date;
+    Img: string;
     Tags: string[];
     Bookmark: number;
 }

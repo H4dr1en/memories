@@ -3,14 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
 import { GeoLocService } from '../../app/services/geolocation.service';
 import { ILatLng } from '@ionic-native/google-maps';
+import { CameraService } from '../../app/services/camera.service'
 
 
-/**
- * Generated class for the EditMemoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -25,7 +20,7 @@ export class EditMemoryPage {
     tagsToAdd: any[] = []
     previousLocName: string;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService, public camera: CameraService) {
         this.mem = this.navParams.get('mem');
         this.tags = this.mem.Tags
         this.previousLocName = this.mem.Location.name;
@@ -62,6 +57,11 @@ export class EditMemoryPage {
                 this.tagsToRemove.push(tag)
             }
         })
+    }
+    addPicture() {
+        this.camera.takePicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
     }
 
     ionViewDidLoad() {

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
 import { GeoLocService, location } from '../../app/services/geolocation.service'
 import { ILatLng } from '@ionic-native/google-maps';
-import {Camera} from '@ionic-native/camera';
+import { CameraService } from '../../app/services/camera.service'
 
 
 @IonicPage()
@@ -15,11 +15,11 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService, public camera: CameraService) {
         this.mem = {
             rowid: undefined,
-            Title: "Last day in San Francisco",
-            Description: "Johnny is so excited, while I'm really tired.",
+            Title: "",
+            Description: "",
             Location: {
                 coords: {} as ILatLng,
                 name: 'Locating...'
@@ -48,8 +48,10 @@ export class AddMemoryPage {
         }
     }
 
-    takePicture(){
-
+    addPicture() {
+        this.camera.takePicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
     }
 
     ionViewDidLoad() {

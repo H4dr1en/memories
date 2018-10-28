@@ -29,6 +29,7 @@ import { MapPage } from '../pages/map/map';
 // Services
 import { DataBaseService } from './services/sql.service'
 import { GeoLocService } from './services/geolocation.service';
+import { CameraService } from './services/camera.service';
 
 // Pipes
 import { FilterPipe } from './pipes/filter.pipe';
@@ -78,6 +79,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     DataBaseService,
     GeoLocService,
     Geolocation,
+    CameraService,
     SQLite,
     HTTP,
     GoogleMaps,

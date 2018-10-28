@@ -28,6 +28,10 @@
             <ion-textarea [(ngModel)]="mem.Description" name="Description"></ion-textarea>
         </ion-item>
         <ion-item>
+                <img *ngIf="mem.Img !== ''" [src]="mem.Img" />
+                <button ion-button block (click)="addPicture()">Add a picture</button>
+            </ion-item>
+        <ion-item>
             <ion-label>Note<ion-icon class="mark-icon" *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark" (click)="mem.Mark = i"></ion-icon></ion-label>
         </ion-item>
         <ion-tags-input name="tags" [(ngModel)]="tags" [canEnterAdd]="true" [canBackspaceRemove]="true"
