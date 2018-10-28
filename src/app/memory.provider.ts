@@ -81,9 +81,9 @@ export class memoryProvider {
     }
 
     async switchBookmark(event, memory: Memory) {
-        memory.Bookmark = memory.Bookmark ? 0:1
+        memory.Bookmark = memory.Bookmark ? 0 : 1
         return this.DBS.updateMemory(memory).catch((e) => {
-            memory.Bookmark = memory.Bookmark ? 0:1
+            memory.Bookmark = memory.Bookmark ? 0 : 1
             console.error("SQLITE ERROR", e);
         });
     }

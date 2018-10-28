@@ -43,7 +43,10 @@ export class HomePage {
     }
 
     handleClick(event: Event, mem: Memory): void {
-        this.pushMemory(mem);
+        let elementClass: string = (event.target as Element).className;
+        if (!elementClass.includes("heart")) {
+            this.pushMemory(mem);
+        }
     }
 
     presentPopover(event) {

@@ -31,6 +31,7 @@
             <ion-card-content (click)="handleClick($event, mem)">
                 <ion-card-title>
                     {{mem.Title | LimitTo: 40}}
+                    <ion-icon (click)="memoryProvider.switchBookmark($event, mem)" [name]="mem.Bookmark | bookmark"></ion-icon>
                 </ion-card-title>
                 <p>
                     {{ mem.Description | LimitTo: 300 }}
@@ -41,16 +42,10 @@
                         <ion-badge color="primary">{{tag}}</ion-badge>
                     </div>
                 </div>
-                <!--
-                <div className="ShareableButton">
-                    <button ion-button color="primary" clear small icon-start>
-                        <ion-icon name='share'></ion-icon>
-                    </button>
-                </div>-->
             </ion-card-content>
             <ion-row>
                 <ion-col>
-                    <div class="mark-container">
+                    <div class="mark-container" (click)="handleClick($event, mem)">
                         <ion-icon color="primary" *ngFor="let i of [1,2,3,4,5]" [name]="i | mark:mem.Mark"></ion-icon>
                     </div>
                 </ion-col>
@@ -58,12 +53,6 @@
                     <button (click)="shareMemory($event, mem)" ion-button icon-start clear small>
                         <ion-icon name="share"></ion-icon>
                         <div>Share</div>
-                    </button>
-                </ion-col>
-                <ion-col>
-                    <button (click)="memoryProvider.switchBookmark($event, mem)" ion-button icon-start clear small>
-                        <ion-icon [name]="mem.Bookmark | bookmark"></ion-icon>
-                        <div>Favorite</div>
                     </button>
                 </ion-col>
             </ion-row>
