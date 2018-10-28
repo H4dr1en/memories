@@ -6,6 +6,7 @@ import { FilterPage } from '../filter/filter';
 import { memoryProvider, Memory } from '../../app/memory.provider';
 import { MapPage } from '../map/map';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery';
 
 export enum FilterOrder {
     Asc = "Asc",
@@ -33,7 +34,8 @@ export class HomePage {
         active: false
     };
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider, private socialSharing: SocialSharing) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController,
+        public memoryProvider: memoryProvider, private socialSharing: SocialSharing, private base64ToGallery: Base64ToGallery) {
     }
 
     showMap() {
@@ -41,14 +43,7 @@ export class HomePage {
     }
 
     handleClick(event: Event, mem: Memory): void {
-        console.log(event.target) 
-        let elementClass: string = (event.target as Element).className;       
-        if (elementClass.includes("button-inner")) {
-            this.shareMemory(mem);
-        }
-        else if (!elementClass.includes("heart")) {
-            this.pushMemory(mem);
-        }
+        this.pushMemory(mem);
     }
 
     presentPopover(event) {
@@ -76,18 +71,33 @@ export class HomePage {
         console.log('ionViewDidLoad HomePage');
     }
 
-    shareMemory(mem: Memory) {
+    shareMemory($event, mem: Memory) {
 
-        // this is the complete list of currently supported params you can pass to the plugin (all optional)
-        var options = {
-            message: mem.Description, // not supported on some apps (Facebook, Instagram)
-            subject: mem.Title, // fi. for email
-            files: ['', ''], // an array of filenames either locally or remotely
-            url: 'https://www.website.com/foo/#bar?a=b',
-            chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title,
+        let exportMem = (imgPath = "") => {
+
+            // this is the complete list of currently supported params you can pass to the plugin (all optional)
+            var options = {
+                message: mem.Description, // not supported on some apps (Facebook, Instagram)
+                subject: mem.Title, // fi. for email
+                files: [imgPath], // an array of filenames either locally or remotely
+                chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title,
+            };
+
+            // Share via email
+            this.socialSharing.shareWithOptions(options);
         };
 
-        // Share via email
-        this.socialSharing.shareWithOptions(options);
+        let img64 = mem.Img.replace("data:image/jpeg;base64,", "");
+
+        this.base64ToGallery.base64ToGallery(img64).then(
+            res => {
+                console.log('Saved image to gallery ', "file://" + res);
+                exportMem("file://" + res);
+            },
+            err => {
+                console.log('Error saving image to gallery ', err);
+                exportMem();
+            }
+        );
     }
 } 

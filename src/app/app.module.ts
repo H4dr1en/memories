@@ -12,6 +12,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery';
 import { Camera } from '@ionic-native/camera'
 
 // Modules
@@ -61,7 +62,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    IonTagsInputModule,
+    IonTagsInputModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -86,6 +87,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     GoogleMaps,
     SocialSharing,
     Camera,
+    Base64ToGallery,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

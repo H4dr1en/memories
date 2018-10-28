@@ -12,6 +12,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-intent href="content://com.android.providers.media.documents/document/image*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
@@ -98,6 +99,7 @@
     </plugin>
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.1" />
     <plugin name="cordova-plugin-camera" spec="4.0.3" />
+    <plugin name="cordova-base64-to-gallery" spec="^4.1.3" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.1" />
     <engine name="browser" spec="5.0.4" />

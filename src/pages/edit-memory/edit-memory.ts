@@ -58,8 +58,19 @@ export class EditMemoryPage {
             }
         })
     }
-    addPicture() {
+    
+    takePicture() {
         this.camera.takePicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
+    }
+
+    removePicture() {
+        this.mem.Img = "";
+    }
+
+    importPicture() {
+        this.camera.importPicture().then((imageData) => {
             this.mem.Img = "data:image/jpeg;base64," + imageData;
         });
     }

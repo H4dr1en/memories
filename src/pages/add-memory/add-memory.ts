@@ -15,7 +15,9 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService, public camera: CameraService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider,
+        public geoloc: GeoLocService, public camera: CameraService,) {
+
         this.mem = {
             rowid: undefined,
             Title: "",
@@ -48,8 +50,18 @@ export class AddMemoryPage {
         }
     }
 
-    addPicture() {
+    takePicture() {
         this.camera.takePicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
+    }
+
+    removePicture() {
+        this.mem.Img = "";
+    }
+
+    importPicture() {
+        this.camera.importPicture().then((imageData) => {
             this.mem.Img = "data:image/jpeg;base64," + imageData;
         });
     }
