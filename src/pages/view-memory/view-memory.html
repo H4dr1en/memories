@@ -12,7 +12,8 @@
 
 
 <ion-content padding>
-    <img src="../../assets/imgs/nin-live.png" />
+    <img *ngIf="mem.Img === ''" src="../../assets/imgs/nin-live.png" />
+    <img *ngIf="mem.Img !== ''" [src]="mem.Img" />
     <h1> {{ mem.Title }}</h1>
     <p class="content">
         {{ mem.Description}} 

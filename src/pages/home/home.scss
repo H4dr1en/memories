@@ -4,17 +4,34 @@ page-home {
         flex-flow: row wrap;
     }
 
+    .mark-container {
+        margin: 5px 10px;
+    }
+
     .tag {
         padding-right: 0.5vw;
     }
     .ion-md-heart{
         color:red;
     }
+
+    .card-title .icon {
+        float: right;
+    }
+
     .icon {
         font-size:1.7em
     }
     .bookmark {
         float: right;
         font-size: 1.2em;
+    }
+
+    ion-card img {
+        max-height: 30vh;
+    }
+
+    .card-content-md {
+        padding: 8px 16px!important;
     }
 }

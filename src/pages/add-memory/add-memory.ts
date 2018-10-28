@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
-import { GeoLocService, location, coordinates } from '../../app/services/geolocation.service'
+import { GeoLocService, location } from '../../app/services/geolocation.service'
+import { ILatLng } from '@ionic-native/google-maps';
+import { CameraService } from '../../app/services/camera.service'
 
-/**
- * Generated class for the AddMemoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -19,16 +15,19 @@ export class AddMemoryPage {
 
     mem: Memory;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider,
+        public geoloc: GeoLocService, public camera: CameraService,) {
+
         this.mem = {
             rowid: undefined,
-            Title: "Last day in San Francisco",
-            Description: "Johnny is so excited, while I'm really tired.",
+            Title: "",
+            Description: "",
             Location: {
-                coords: {} as coordinates,
+                coords: {} as ILatLng,
                 name: 'Locating...'
             },
             Mark: 1,
+            Img: "",
             Tags: [],
             Date: undefined,
             Bookmark: 0
@@ -39,7 +38,7 @@ export class AddMemoryPage {
         this.mem.Date = new Date();
 
         if (Object.keys(this.mem.Location.coords).length == 0) {
-            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: ILatLng) => {
                 this.mem.Location.coords = coords;
                 this.memoryProvider.createNewMemory(this.mem);
                 this.navCtrl.pop()
@@ -51,6 +50,22 @@ export class AddMemoryPage {
         }
     }
 
+    takePicture() {
+        this.camera.takePicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
+    }
+
+    removePicture() {
+        this.mem.Img = "";
+    }
+
+    importPicture() {
+        this.camera.importPicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
+    }
+
     ionViewDidLoad() {
         console.log('ionViewDidLoad AddMemoryPage');
     }
@@ -60,7 +75,7 @@ export class AddMemoryPage {
 
     ionViewDidEnter() {
         this.geoloc.getGPSCoords()
-            .then((coords: coordinates) => this.geoloc.getLocation(coords))
+            .then((coords: ILatLng) => this.geoloc.getLocation(coords))
             .then((loc: location) => this.mem.Location = loc)
             .catch(e => {
                 this.mem.Location.name = "";

@@ -4,6 +4,9 @@ import { ViewMemoryPage } from '../view-memory/view-memory';
 import { AddMemoryPage } from '../add-memory/add-memory';
 import { FilterPage } from '../filter/filter';
 import { memoryProvider, Memory } from '../../app/memory.provider';
+import { MapPage } from '../map/map';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery';
 
 export enum FilterOrder {
     Asc = "Asc",
@@ -31,13 +34,18 @@ export class HomePage {
         active: false
     };
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public memoryProvider: memoryProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController,
+        public memoryProvider: memoryProvider, private socialSharing: SocialSharing, private base64ToGallery: Base64ToGallery) {
+    }
+
+    showMap() {
+        this.navCtrl.push(MapPage, { 'memories': this.memoryProvider.memories });
     }
 
     handleClick(event: Event, mem: Memory): void {
         let elementClass: string = (event.target as Element).className;
         if (!elementClass.includes("heart")) {
-            this.pushMemory(mem)
+            this.pushMemory(mem);
         }
     }
 
@@ -64,5 +72,35 @@ export class HomePage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad HomePage');
+    }
+
+    shareMemory($event, mem: Memory) {
+
+        let exportMem = (imgPath = "") => {
+
+            // this is the complete list of currently supported params you can pass to the plugin (all optional)
+            var options = {
+                message: mem.Description, // not supported on some apps (Facebook, Instagram)
+                subject: mem.Title, // fi. for email
+                files: [imgPath], // an array of filenames either locally or remotely
+                chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title,
+            };
+
+            // Share via email
+            this.socialSharing.shareWithOptions(options);
+        };
+
+        let img64 = mem.Img.replace("data:image/jpeg;base64,", "");
+
+        this.base64ToGallery.base64ToGallery(img64).then(
+            res => {
+                console.log('Saved image to gallery ', "file://" + res);
+                exportMem("file://" + res);
+            },
+            err => {
+                console.log('Error saving image to gallery ', err);
+                exportMem();
+            }
+        );
     }
 } 

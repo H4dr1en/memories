@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { memoryProvider, Memory } from '../../app/memory.provider'
-import { GeoLocService, coordinates } from '../../app/services/geolocation.service';
+import { GeoLocService } from '../../app/services/geolocation.service';
+import { ILatLng } from '@ionic-native/google-maps';
+import { CameraService } from '../../app/services/camera.service'
 
 
-/**
- * Generated class for the EditMemoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -24,7 +20,7 @@ export class EditMemoryPage {
     tagsToAdd: any[] = []
     previousLocName: string;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public memoryProvider: memoryProvider, public geoloc: GeoLocService, public camera: CameraService) {
         this.mem = this.navParams.get('mem');
         this.tags = this.mem.Tags
         this.previousLocName = this.mem.Location.name;
@@ -32,7 +28,7 @@ export class EditMemoryPage {
 
     editMemory() {
         if (this.previousLocName != this.mem.Location.name) {
-            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: coordinates) => {
+            this.geoloc.getCoordsWithName(this.mem.Location.name).then((coords: ILatLng) => {
                 this.mem.Location.coords = coords;
                 this.saveAndQuit();
             }).catch(e => {
@@ -61,6 +57,22 @@ export class EditMemoryPage {
                 this.tagsToRemove.push(tag)
             }
         })
+    }
+    
+    takePicture() {
+        this.camera.takePicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
+    }
+
+    removePicture() {
+        this.mem.Img = "";
+    }
+
+    importPicture() {
+        this.camera.importPicture().then((imageData) => {
+            this.mem.Img = "data:image/jpeg;base64," + imageData;
+        });
     }
 
     ionViewDidLoad() {

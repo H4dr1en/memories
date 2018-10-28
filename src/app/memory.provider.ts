@@ -9,6 +9,7 @@ export type Memory = {
     Location: location;
     Mark: number;
     Date: Date;
+    Img: string;
     Tags: string[];
     Bookmark: number;
 }
@@ -79,10 +80,10 @@ export class memoryProvider {
         }).catch(e => console.error("SQLITE ERROR", e));
     }
 
-    async switchBookmark(memory: Memory) {
-        memory.Bookmark = memory.Bookmark ? 0:1
+    async switchBookmark(event, memory: Memory) {
+        memory.Bookmark = memory.Bookmark ? 0 : 1
         return this.DBS.updateMemory(memory).catch((e) => {
-            memory.Bookmark = memory.Bookmark ? 0:1
+            memory.Bookmark = memory.Bookmark ? 0 : 1
             console.error("SQLITE ERROR", e);
         });
     }

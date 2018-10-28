@@ -10,6 +10,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Geolocation } from '@ionic-native/geolocation';
 import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
+import { GoogleMaps } from '@ionic-native/google-maps';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery';
+import { Camera } from '@ionic-native/camera'
 
 // Modules
 import { MyApp } from './app.component';
@@ -22,10 +26,12 @@ import { ViewMemoryPage } from '../pages/view-memory/view-memory';
 import { AddMemoryPage } from '../pages/add-memory/add-memory';
 import { EditMemoryPage } from '../pages/edit-memory/edit-memory';
 import { FilterPage } from '../pages/filter/filter';
+import { MapPage } from '../pages/map/map';
 
 // Services
 import { DataBaseService } from './services/sql.service'
 import { GeoLocService } from './services/geolocation.service';
+import { CameraService } from './services/camera.service';
 
 // Pipes
 import { FilterPipe } from './pipes/filter.pipe';
@@ -44,6 +50,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     AddMemoryPage,
     EditMemoryPage,
     FilterPage,
+    MapPage,
     LimitTo,
     FilterPipe,
     SortPipe,
@@ -64,7 +71,8 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     ViewMemoryPage,
     AddMemoryPage,
     EditMemoryPage,
-    FilterPage
+    FilterPage,
+    MapPage,
   ],
   providers: [
     StatusBar,
@@ -73,8 +81,13 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     DataBaseService,
     GeoLocService,
     Geolocation,
+    CameraService,
     SQLite,
     HTTP,
+    GoogleMaps,
+    SocialSharing,
+    Camera,
+    Base64ToGallery,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
