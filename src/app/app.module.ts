@@ -12,6 +12,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { HTTP } from '@ionic-native/http';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Camera } from '@ionic-native/camera'
 
 // Modules
 import { MyApp } from './app.component';
@@ -84,6 +85,7 @@ import { coordinatesPipe } from './pipes/coordinates.pipe'
     HTTP,
     GoogleMaps,
     SocialSharing,
+    Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
